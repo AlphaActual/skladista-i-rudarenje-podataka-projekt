@@ -1,0 +1,91 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\geometry{
+ a4paper,
+ left=1.25in,
+ right=1.25in,
+ top=1in,
+ }
+\usepackage[croatian,english]{babel}    %za hrvatske naslove
+\usepackage[nottoc]{tocbibind}  %za pravilan table of content
+\usepackage{graphicx}   %za dodavanje slika
+\usepackage{amsmath}    %za matematičke forumele
+\usepackage{subcaption} %za dvije slike u jednoj
+\usepackage{booktabs}   %za bolje tablice
+\usepackage{multirow}   %za multirow tablice
+\usepackage{cite}
+\usepackage{url}       %za URL linkove u bibliografiji
+\usepackage{float}
+\usepackage{hyperref}  %za hiperlinkove - mora biti zadnji
+
+% Konfiguracija hyperref-a za boje i stil linkova
+\hypersetup{
+    colorlinks=true,        % linkovi su obojeni umjesto u okvirima
+    linkcolor=black,         % boja unutarnjih linkova (TOC, reference)
+    citecolor=black,        % boja citata
+    urlcolor=blue,          % boja URL linkova
+    filecolor=magenta,      % boja linkova na datoteke
+    menucolor=red,          % boja linkova na meni
+    breaklinks=true,        % dozvoljava lomljenje linkova preko redaka
+    % bookmarks=true,       % stvara PDF bookmarks (default je true)
+    % bookmarksopen=true,   % otvara bookmark panel
+    % pdfstartview=FitH,    % kako se PDF otvara
+    % pdftitle={Naslov rada},    % naslov PDF-a
+    % pdfauthor={Vaše ime},      % autor PDF-a
+    % pdfsubject={Tema rada},    % tema PDF-a
+}
+
+\begin{document}
+
+\input{cover/prva-stranica}
+\pagenumbering{gobble}
+\clearpage
+\newpage
+
+\input{cover/druga-stranica}
+\pagenumbering{gobble}
+\clearpage
+\newpage
+
+\input{cover/izjava-čestitosti.tex}
+\pagenumbering{gobble}
+\clearpage
+\newpage
+
+%Resetirat margine
+\restoregeometry
+
+\clearpage
+\newpage
+
+\selectlanguage{croatian}
+\tableofcontents
+\pagenumbering{gobble}
+\clearpage
+\newpage
+
+\pagenumbering{arabic}
+
+\input{uvod/uvod}
+\newpage
+
+\input{zaključak/zaključak}
+\newpage
+
+\bibliographystyle{unsrt}
+\bibliography{literatura}
+\newpage
+
+%Automatski generira listu svih slika
+\listoffigures
+\newpage
+
+%Automatski generira listu svih tablica
+\listoftables
+\newpage
+
+
+\end{document}

@@ -1,0 +1,236 @@
+# LaTeX auxiliary files
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+# Intermediate documents
+*.dvi
+*.xdv
+*-converted-to.*
+
+# Bibliography auxiliary files
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
+
+# Build tool auxiliary files
+*.fdb_latexmk
+*.fls
+*.figlist
+*.makefile
+*.fdblatexmk
+
+# Cross-refs (usually derived from .tex)
+*.end
+*.idx
+*.ilg
+*.ind
+*.isf
+*.nlo
+*.nls
+*.slg
+*.slo
+*.sls
+
+# Glossaries
+*.acn
+*.acr
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.lzo
+*.lzs
+
+# Uncomment this if you use the glossaries package and you want to ignore the glossary files:
+# *.ist
+
+# gnuplot files
+*.gnuplot
+*.table
+
+# hyperref
+*.brf
+
+# knitr
+*-concordance.tex
+# TODO: Comment the next line if you want to keep your tikz graphics files
+*.tikz
+*-tikzDictionary
+
+# listings
+*.lol
+
+# luatexja-ruby
+*.ltjruby
+
+# makeidx
+*.idx
+*.ilg
+*.ind
+
+# minitoc
+*.maf
+*.mlf
+*.mlt
+*.mtc[0-9]*
+*.slf[0-9]*
+*.slt[0-9]*
+*.stc[0-9]*
+
+# minted
+_minted*
+*.pyg
+
+# morewrites
+*.mw
+
+# nomencl
+*.nlg
+*.nlo
+*.nls
+
+# pax
+*.pax
+
+# pdfpcnotes
+*.pdfpc
+
+# sagetex
+*.sagetex.sage
+*.sagetex.py
+*.sagetex.scmd
+
+# scrwfile
+*.wrt
+
+# sympy
+*.SymPy
+
+# pdfcomment
+*.upa
+*.upb
+
+# pythontex
+*.pytxcode
+pythontex-files-*/
+
+# tcolorbox
+*.listing
+
+# thmtools
+*.loe
+
+# TikZ & PGF
+*.auxlock
+
+# todonotes
+*.tdo
+
+# vhistory
+*.hst
+*.ver
+
+# easy-todo
+*.lod
+
+# xcolor
+*.xcp
+
+# xmpincl
+*.xmpi
+
+# xindy
+*.xdy
+
+# xypic precompiled matrices and outlines
+*.xyc
+*.xyd
+
+# endfloat
+*.ttt
+*.fff
+
+# Latexian
+TSWLatexianTemp*
+
+# Texpad
+.texpadtmp
+
+# LyX
+*.lyx~
+
+# Kile
+*.kile
+
+# gummi
+.*.swp
+
+# KBibTeX
+*~[0-9]*
+
+# TeXnicCenter
+*.tps
+
+# auto folder when using emacs and auctex
+./auto/*
+*.el
+
+# expex forward references with \gathertags
+*-tags.tex
+
+# standalone packages
+*.sta
+
+# Makeindex log files
+*.lpz
+
+# xwatermark package
+*.xwm
+
+# REVTeX puts footnotes in the bibliography by default, unless the nofootinbib
+# option is specified. Footnotes are the stored in a file with suffix Notes.bib.
+# Uncomment the next line to have this generated file ignored.
+#*Notes.bib
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows image file caches
+*.stackdump
+
+# Editor backup files
+*~
+*.swp
+*.swo
+*#
+.#*
+
+# Temporary files
+*.tmp
+*.temp
+
+# MiKTeX
+*.auxlock
+
+# LaTeX SyncTeX files
+*.synctex.gz
+*.synctex.gz.sum.synctex
