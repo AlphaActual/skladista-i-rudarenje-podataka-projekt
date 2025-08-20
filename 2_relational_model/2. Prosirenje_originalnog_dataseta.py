@@ -46,24 +46,18 @@ def expand_cars_data(input_file, output_file):
     
     # Add engine size classification
     print("Adding engine size classification...")
-    # Mark 0.0 engine size as missing data
-    df.loc[df['engineSize'] == 0.0, 'engineSize'] = None
-    
-    
     # Define engine size classes
     engine_size_classes = [
-        (0, 1.5, 'Small'),
+        (0.1, 1.5, 'Small'),  # Start from 0.1 to exclude 0.0 values
         (1.5, 2.5, 'Medium'),
         (2.5, float('inf'), 'Large')
     ]
-    
+
     # Apply categorization
     df['engineSizeClass'] = 'Unknown'
     for low, high, category in engine_size_classes:
         mask = (df['engineSize'] >= low) & (df['engineSize'] < high)
-        df.loc[mask, 'engineSizeClass'] = category
-    
-    # Add age column based on year (assuming current year is 2025)
+        df.loc[mask, 'engineSizeClass'] = category    # Add age column based on year (assuming current year is 2025)
     print("Adding age column and categorization...")
     current_year = 2025
     df['age'] = current_year - df['year']
@@ -95,6 +89,5 @@ if __name__ == "__main__":
     expand_cars_data(input_file, output_file)
 
 
-# TODO tu smo gotovi update EER i star schemu i kod za popunjavanje podataka
 
 

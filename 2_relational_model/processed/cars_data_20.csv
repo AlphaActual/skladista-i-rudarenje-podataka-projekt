@@ -31,7 +31,7 @@ Tucson,2016,12498,Manual,21037,Diesel,30,61.7,1.7,Hyundai,2010s,South Korea,Asia
 A3,2019,21491,Manual,4552,Diesel,145,51.4,1.6,Audi,2010s,Germany,Europe,Very Low,Medium,6,Recent
 C Class,2016,10998,Manual,83786,Diesel,20,72.4,1.6,Mercedes-Benz,2010s,Germany,Europe,High,Medium,9,Mature
 Focus,2015,8595,Semi-Auto,31000,Petrol,160,44.8,1.6,Ford,2010s,United States,North America,Medium,Medium,10,Mature
-Astra,2017,10200,Manual,21595,Petrol,145,51.4,,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,8,Mature
+Astra,2017,10200,Manual,21595,Petrol,145,51.4,0.0,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,8,Mature
 Adam,2017,7491,Manual,10257,Petrol,150,53.3,1.2,Vauxhall,2010s,United Kingdom,Europe,Low,Small,8,Mature
 Focus,2017,10498,Manual,42002,Petrol,20,60.1,1.0,Ford,2010s,United States,North America,Medium,Small,8,Mature
 4 Series,2019,25990,Automatic,6519,Diesel,145,58.9,2.0,BMW,2010s,Germany,Europe,Low,Medium,6,Recent
@@ -751,7 +751,7 @@ Focus,2016,10696,Manual,13000,Petrol,20,60.1,1.0,Ford,2010s,United States,North 
 Golf,2015,12750,Manual,78990,Diesel,20,67.3,2.0,Volkswagen,2010s,Germany,Europe,High,Medium,10,Mature
 Tiguan,2018,27291,Semi-Auto,16642,Petrol,145,38.2,2.0,Volkswagen,2010s,Germany,Europe,Low,Medium,7,Mature
 A4,2019,26490,Semi-Auto,9461,Diesel,145,47.9,2.0,Audi,2010s,Germany,Europe,Low,Medium,6,Recent
-Fiesta,2019,21999,Manual,4000,Petrol,145,40.3,,Ford,2010s,United States,North America,Very Low,Unknown,6,Recent
+Fiesta,2019,21999,Manual,4000,Petrol,145,40.3,0.0,Ford,2010s,United States,North America,Very Low,Unknown,6,Recent
 Astra,2016,11990,Automatic,2800,Petrol,125,50.4,1.4,Vauxhall,2010s,United Kingdom,Europe,Very Low,Small,9,Mature
 I10,2019,13495,Semi-Auto,2034,Petrol,150,47.9,1.2,Hyundai,2010s,South Korea,Asia,Very Low,Small,6,Recent
 X3,2017,23100,Automatic,35903,Diesel,145,54.3,2.0,BMW,2010s,Germany,Europe,Medium,Medium,8,Mature
@@ -1070,7 +1070,7 @@ Superb,2019,13480,Manual,44100,Diesel,150,65.7,2.0,Skoda,2010s,Czech Republic,Eu
 Fiesta,2019,10995,Manual,28798,Petrol,145,56.5,1.0,Ford,2010s,United States,North America,Medium,Small,6,Recent
 1 Series,2017,13888,Manual,15512,Petrol,150,53.3,1.5,BMW,2010s,Germany,Europe,Low,Medium,8,Mature
 A4,2016,14899,Manual,28555,Diesel,20,70.6,2.0,Audi,2010s,Germany,Europe,Medium,Medium,9,Mature
-I800,2018,15500,Manual,30305,Diesel,145,31.7,,Hyundai,2010s,South Korea,Asia,Medium,Unknown,7,Mature
+I800,2018,15500,Manual,30305,Diesel,145,31.7,0.0,Hyundai,2010s,South Korea,Asia,Medium,Unknown,7,Mature
 E Class,2016,19700,Semi-Auto,24874,Diesel,30,65.7,2.0,Mercedes-Benz,2010s,Germany,Europe,Medium,Medium,9,Mature
 Golf,2019,15990,Manual,15706,Petrol,145,49.6,1.0,Volkswagen,2010s,Germany,Europe,Low,Small,6,Recent
 A Class,2016,15562,Manual,32984,Diesel,20,68.9,1.5,Mercedes-Benz,2010s,Germany,Europe,Medium,Medium,9,Mature
@@ -1456,7 +1456,7 @@ Mokka X,2018,10510,Manual,40580,Petrol,145,47.1,1.4,Vauxhall,2010s,United Kingdo
 I20,2014,5500,Manual,31946,Petrol,30,57.6,1.2,Hyundai,2010s,South Korea,Asia,Medium,Small,11,Mature
 Q5,2019,33900,Automatic,6318,Diesel,145,38.2,2.0,Audi,2010s,Germany,Europe,Low,Medium,6,Recent
 Q3,2017,20000,Manual,25868,Petrol,145,49.6,1.4,Audi,2010s,Germany,Europe,Medium,Small,8,Mature
-Astra,2017,11000,Manual,14878,Petrol,145,51.4,,Vauxhall,2010s,United Kingdom,Europe,Low,Unknown,8,Mature
+Astra,2017,11000,Manual,14878,Petrol,145,51.4,0.0,Vauxhall,2010s,United Kingdom,Europe,Low,Unknown,8,Mature
 Tiguan,2019,22199,Automatic,6707,Diesel,145,40.4,2.0,Volkswagen,2010s,Germany,Europe,Low,Medium,6,Recent
 C Class,2019,24748,Automatic,13479,Petrol,145,47.1,1.5,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,6,Recent
 Aygo,2017,7700,Manual,37313,Petrol,0,68.9,1.0,Toyota,2010s,Japan,Asia,Medium,Small,8,Mature
@@ -1572,7 +1572,7 @@ Aygo,2019,9995,Manual,4122,Petrol,145,57.7,1.0,Toyota,2010s,Japan,Asia,Very Low,
 Q3,2018,24000,Semi-Auto,9153,Petrol,145,45.6,1.4,Audi,2010s,Germany,Europe,Low,Small,7,Mature
 C Class,2019,45980,Semi-Auto,4504,Petrol,145,29.7,3.0,Mercedes-Benz,2010s,Germany,Europe,Very Low,Large,6,Recent
 T-Roc,2019,21498,Manual,14,Diesel,150,50.4,1.6,Volkswagen,2010s,Germany,Europe,Very Low,Medium,6,Recent
-I30,2017,10500,Automatic,17663,Diesel,20,72.4,,Hyundai,2010s,South Korea,Asia,Low,Unknown,8,Mature
+I30,2017,10500,Automatic,17663,Diesel,20,72.4,0.0,Hyundai,2010s,South Korea,Asia,Low,Unknown,8,Mature
 A1,2016,11999,Manual,48090,Petrol,30,55.4,1.4,Audi,2010s,Germany,Europe,Medium,Small,9,Mature
 Fiesta,2015,7630,Manual,18608,Petrol,0,65.7,1.0,Ford,2010s,United States,North America,Low,Small,10,Mature
 X-CLASS,2019,28675,Automatic,39,Diesel,260,35.8,2.3,Mercedes-Benz,2010s,Germany,Europe,Very Low,Medium,6,Recent
@@ -2168,7 +2168,7 @@ Golf,2020,20891,Semi-Auto,3200,Petrol,145,47.1,1.5,Volkswagen,2020s,Germany,Euro
 Karoq,2019,22000,Manual,18122,Diesel,150,42.8,2.0,Skoda,2010s,Czech Republic,Europe,Low,Medium,6,Recent
 Scirocco,2016,13480,Manual,21641,Diesel,20,55.4,2.0,Volkswagen,2010s,Germany,Europe,Medium,Medium,9,Mature
 Zafira,2015,10440,Automatic,12396,Diesel,200,46.3,2.0,Vauxhall,2010s,United Kingdom,Europe,Low,Medium,10,Mature
-I20,2016,7500,Manual,41496,Petrol,30,56.5,,Hyundai,2010s,South Korea,Asia,Medium,Unknown,9,Mature
+I20,2016,7500,Manual,41496,Petrol,30,56.5,0.0,Hyundai,2010s,South Korea,Asia,Medium,Unknown,9,Mature
 Fiesta,2016,7660,Manual,18839,Petrol,125,54.3,1.2,Ford,2010s,United States,North America,Low,Small,9,Mature
 5 Series,2010,9249,Automatic,94938,Diesel,240,43.5,3.0,BMW,2010s,Germany,Europe,High,Large,15,Old
 Aygo,2015,7195,Automatic,26000,Petrol,0,67.0,1.0,Toyota,2010s,Japan,Asia,Medium,Small,10,Mature
@@ -2440,7 +2440,7 @@ A1,2018,17000,Manual,10844,Petrol,150,70.6,1.4,Audi,2010s,Germany,Europe,Low,Sma
 X3,2019,31995,Semi-Auto,2498,Petrol,145,30.4,2.0,BMW,2010s,Germany,Europe,Very Low,Medium,6,Recent
 Rapid,2015,5795,Manual,78791,Diesel,20,70.6,1.6,Skoda,2010s,Czech Republic,Europe,High,Medium,10,Mature
 Superb,2019,17998,Manual,16317,Diesel,150,65.7,2.0,Skoda,2010s,Czech Republic,Europe,Low,Medium,6,Recent
-I20,2017,8600,Manual,19398,Petrol,30,58.9,,Hyundai,2010s,South Korea,Asia,Low,Unknown,8,Mature
+I20,2017,8600,Manual,19398,Petrol,30,58.9,0.0,Hyundai,2010s,South Korea,Asia,Low,Unknown,8,Mature
 Fiesta,2019,12500,Manual,7983,Petrol,145,58.9,1.0,Ford,2010s,United States,North America,Low,Small,6,Recent
 Polo,2017,10499,Manual,27401,Petrol,150,60.1,1.0,Volkswagen,2010s,Germany,Europe,Medium,Small,8,Mature
 Focus,2017,10981,Manual,25782,Petrol,145,60.1,1.0,Ford,2010s,United States,North America,Medium,Small,8,Mature
@@ -2933,7 +2933,7 @@ Kuga,2019,23499,Semi-Auto,10105,Diesel,150,42.2,2.0,Ford,2010s,United States,Nor
 Kodiaq,2020,32990,Automatic,1007,Diesel,145,39.2,2.0,Skoda,2020s,Czech Republic,Europe,Very Low,Medium,5,Recent
 Scirocco,2017,15290,Semi-Auto,13382,Diesel,145,57.6,2.0,Volkswagen,2010s,Germany,Europe,Low,Medium,8,Mature
 A1,2016,10510,Semi-Auto,59302,Petrol,30,57.6,1.4,Audi,2010s,Germany,Europe,High,Small,9,Mature
-Meriva,2016,5998,Manual,50254,Petrol,145,47.1,,Vauxhall,2010s,United Kingdom,Europe,High,Unknown,9,Mature
+Meriva,2016,5998,Manual,50254,Petrol,145,47.1,0.0,Vauxhall,2010s,United Kingdom,Europe,High,Unknown,9,Mature
 A8,2018,37000,Automatic,10250,Petrol,145,37.7,3.0,Audi,2010s,Germany,Europe,Low,Large,7,Mature
 C Class,2019,27280,Semi-Auto,7268,Petrol,145,46.3,1.5,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,6,Recent
 EcoSport,2018,13895,Automatic,28536,Petrol,145,48.7,1.0,Ford,2010s,United States,North America,Medium,Small,7,Mature
@@ -3098,7 +3098,7 @@ Citigo,2016,6800,Manual,28314,Petrol,20,62.8,1.0,Skoda,2010s,Czech Republic,Euro
 Focus,2018,12500,Manual,15183,Petrol,145,57.7,1.0,Ford,2010s,United States,North America,Low,Small,7,Mature
 X1,2017,17980,Semi-Auto,53850,Diesel,150,57.6,2.0,BMW,2010s,Germany,Europe,High,Medium,8,Mature
 A5,2020,29950,Semi-Auto,480,Petrol,145,39.8,2.0,Audi,2020s,Germany,Europe,Very Low,Medium,5,Recent
-i3,2017,21495,Automatic,24041,Hybrid,0,470.8,,BMW,2010s,Germany,Europe,Medium,Unknown,8,Mature
+i3,2017,21495,Automatic,24041,Hybrid,0,470.8,0.0,BMW,2010s,Germany,Europe,Medium,Unknown,8,Mature
 Citigo,2018,8995,Manual,11212,Petrol,145,67.3,1.0,Skoda,2010s,Czech Republic,Europe,Low,Small,7,Mature
 CLS Class,2019,34900,Semi-Auto,9400,Diesel,145,48.7,2.9,Mercedes-Benz,2010s,Germany,Europe,Low,Large,6,Recent
 Focus,2018,12090,Automatic,12279,Petrol,145,51.4,1.0,Ford,2010s,United States,North America,Low,Small,7,Mature
@@ -3463,7 +3463,7 @@ Yaris,2017,9495,Manual,11373,Petrol,30,58.0,1.3,Toyota,2010s,Japan,Asia,Low,Smal
 Roomster,2013,6099,Manual,21462,Petrol,145,49.6,1.2,Skoda,2010s,Czech Republic,Europe,Medium,Small,12,Old
 EcoSport,2019,15591,Manual,7386,Petrol,145,52.3,1.0,Ford,2010s,United States,North America,Low,Small,6,Recent
 Focus,2017,11620,Manual,26508,Diesel,145,74.3,1.5,Ford,2010s,United States,North America,Medium,Medium,8,Mature
-EcoSport,2018,12867,Manual,9000,Petrol,145,54.3,,Ford,2010s,United States,North America,Low,Unknown,7,Mature
+EcoSport,2018,12867,Manual,9000,Petrol,145,54.3,0.0,Ford,2010s,United States,North America,Low,Unknown,7,Mature
 A1,2014,11000,Manual,34315,Petrol,125,53.3,1.4,Audi,2010s,Germany,Europe,Medium,Small,11,Mature
 E Class,2016,14891,Semi-Auto,60787,Diesel,125,60.1,2.1,Mercedes-Benz,2010s,Germany,Europe,High,Medium,9,Mature
 Fiesta,2018,9498,Manual,15012,Petrol,150,65.7,1.0,Ford,2010s,United States,North America,Low,Small,7,Mature
@@ -4399,7 +4399,7 @@ Mokka X,2019,14499,Semi-Auto,9000,Petrol,145,37.2,1.4,Vauxhall,2010s,United King
 A3,2019,22967,Manual,6000,Petrol,145,43.5,1.5,Audi,2010s,Germany,Europe,Low,Medium,6,Recent
 Mokka X,2019,13995,Manual,9702,Petrol,145,39.2,1.4,Vauxhall,2010s,United Kingdom,Europe,Low,Small,6,Recent
 Kona,2019,14495,Manual,4000,Petrol,145,44.1,1.0,Hyundai,2010s,South Korea,Asia,Very Low,Small,6,Recent
-i3,2015,15498,Automatic,33931,Hybrid,0,470.8,,BMW,2010s,Germany,Europe,Medium,Unknown,10,Mature
+i3,2015,15498,Automatic,33931,Hybrid,0,470.8,0.0,BMW,2010s,Germany,Europe,Medium,Unknown,10,Mature
 EcoSport,2019,16399,Manual,3419,Petrol,145,52.3,1.0,Ford,2010s,United States,North America,Very Low,Small,6,Recent
 Tucson,2017,13100,Manual,21119,Diesel,30,61.7,1.7,Hyundai,2010s,South Korea,Asia,Medium,Medium,8,Mature
 Fiesta,2016,8498,Manual,7519,Petrol,125,54.3,1.2,Ford,2010s,United States,North America,Low,Small,9,Mature
@@ -4557,7 +4557,7 @@ Mokka,2016,9999,Manual,8638,Petrol,200,40.9,1.6,Vauxhall,2010s,United Kingdom,Eu
 Tiguan,2013,9995,Semi-Auto,65412,Diesel,205,47.7,2.0,Volkswagen,2010s,Germany,Europe,High,Medium,12,Old
 Corsa,2011,4995,Automatic,39000,Petrol,140,49.6,1.4,Vauxhall,2010s,United Kingdom,Europe,Medium,Small,14,Old
 Santa Fe,2016,20681,Semi-Auto,19201,Diesel,240,42.8,2.2,Hyundai,2010s,South Korea,Asia,Low,Medium,9,Mature
-i3,2017,19495,Automatic,17338,Hybrid,135,470.8,,BMW,2010s,Germany,Europe,Low,Unknown,8,Mature
+i3,2017,19495,Automatic,17338,Hybrid,135,470.8,0.0,BMW,2010s,Germany,Europe,Low,Unknown,8,Mature
 Kodiaq,2020,31995,Automatic,200,Diesel,145,42.2,2.0,Skoda,2020s,Czech Republic,Europe,Very Low,Medium,5,Recent
 E Class,2015,15999,Semi-Auto,30000,Diesel,150,55.4,2.1,Mercedes-Benz,2010s,Germany,Europe,Medium,Medium,10,Mature
 Fiesta,2017,10950,Manual,14292,Petrol,145,65.7,1.0,Ford,2010s,United States,North America,Low,Small,8,Mature
@@ -5326,7 +5326,7 @@ Fiesta,2019,11298,Manual,13733,Petrol,145,58.9,1.0,Ford,2010s,United States,Nort
 Fiesta,2016,8284,Manual,12956,Petrol,0,65.7,1.0,Ford,2010s,United States,North America,Low,Small,9,Mature
 C Class,2016,20995,Semi-Auto,14909,Diesel,30,64.2,2.1,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,9,Mature
 Tucson,2017,15495,Semi-Auto,19990,Diesel,125,57.6,1.7,Hyundai,2010s,South Korea,Asia,Low,Medium,8,Mature
-I800,2019,18500,Manual,7691,Diesel,150,31.7,,Hyundai,2010s,South Korea,Asia,Low,Unknown,6,Recent
+I800,2019,18500,Manual,7691,Diesel,150,31.7,0.0,Hyundai,2010s,South Korea,Asia,Low,Unknown,6,Recent
 Golf,2019,19990,Semi-Auto,8457,Petrol,145,45.6,1.5,Volkswagen,2010s,Germany,Europe,Low,Medium,6,Recent
 Citigo,2014,6000,Automatic,24735,Petrol,20,64.2,1.0,Skoda,2010s,Czech Republic,Europe,Medium,Small,11,Mature
 B Class,2018,17760,Semi-Auto,12370,Diesel,150,68.9,2.1,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,7,Mature
@@ -5469,7 +5469,7 @@ IX20,2017,8780,Manual,15956,Petrol,145,50.4,1.4,Hyundai,2010s,South Korea,Asia,L
 Kuga,2017,14489,Manual,16816,Diesel,145,64.2,1.5,Ford,2010s,United States,North America,Low,Medium,8,Mature
 Focus,2019,14380,Manual,3802,Petrol,145,58.9,1.0,Ford,2010s,United States,North America,Very Low,Small,6,Recent
 2 Series,2019,19990,Manual,3303,Petrol,145,42.8,1.5,BMW,2010s,Germany,Europe,Very Low,Medium,6,Recent
-S4,2019,39850,Automatic,4129,Diesel,145,40.4,,Audi,2010s,Germany,Europe,Very Low,Unknown,6,Recent
+S4,2019,39850,Automatic,4129,Diesel,145,40.4,0.0,Audi,2010s,Germany,Europe,Very Low,Unknown,6,Recent
 Fiesta,2016,7499,Manual,27243,Petrol,125,54.3,1.2,Ford,2010s,United States,North America,Medium,Small,9,Mature
 Polo,2016,9290,Manual,31352,Petrol,20,60.1,1.2,Volkswagen,2010s,Germany,Europe,Medium,Small,9,Mature
 Corsa,2018,7790,Manual,10242,Petrol,145,55.4,1.4,Vauxhall,2010s,United Kingdom,Europe,Low,Small,7,Mature
@@ -6113,7 +6113,7 @@ Golf,2016,11799,Manual,31156,Petrol,30,53.3,1.4,Volkswagen,2010s,Germany,Europe,
 A3,2016,16498,Manual,30692,Petrol,30,60.1,1.4,Audi,2010s,Germany,Europe,Medium,Small,9,Mature
 Fiesta,2018,10600,Manual,23050,Petrol,145,56.5,1.0,Ford,2010s,United States,North America,Medium,Small,7,Mature
 Golf,2016,8875,Manual,50000,Diesel,0,72.4,1.6,Volkswagen,2010s,Germany,Europe,High,Medium,9,Mature
-Kuga,2019,18990,Manual,8389,Petrol,150,35.3,,Ford,2010s,United States,North America,Low,Unknown,6,Recent
+Kuga,2019,18990,Manual,8389,Petrol,150,35.3,0.0,Ford,2010s,United States,North America,Low,Unknown,6,Recent
 GLE Class,2016,26572,Automatic,34333,Diesel,260,42.8,3.0,Mercedes-Benz,2010s,Germany,Europe,Medium,Large,9,Mature
 1 Series,2014,10285,Manual,41659,Petrol,145,50.4,1.6,BMW,2010s,Germany,Europe,Medium,Medium,11,Mature
 Auris,2016,12295,Automatic,38237,Hybrid,0,78.5,1.8,Toyota,2010s,Japan,Asia,Medium,Medium,9,Mature
@@ -6328,7 +6328,7 @@ GLE Class,2017,28360,Automatic,28939,Diesel,145,42.8,3.0,Mercedes-Benz,2010s,Ger
 A6,2019,30850,Semi-Auto,5000,Diesel,145,50.4,2.0,Audi,2010s,Germany,Europe,Low,Medium,6,Recent
 Passat,2015,9998,Manual,44369,Diesel,20,68.9,2.0,Volkswagen,2010s,Germany,Europe,Medium,Medium,10,Mature
 Insignia,2016,7490,Automatic,50177,Diesel,165,52.3,2.0,Vauxhall,2010s,United Kingdom,Europe,High,Medium,9,Mature
-Tucson,2016,13800,Manual,27311,Diesel,30,61.7,,Hyundai,2010s,South Korea,Asia,Medium,Unknown,9,Mature
+Tucson,2016,13800,Manual,27311,Diesel,30,61.7,0.0,Hyundai,2010s,South Korea,Asia,Medium,Unknown,9,Mature
 Fiesta,2017,9739,Manual,23500,Petrol,20,62.8,1.0,Ford,2010s,United States,North America,Medium,Small,8,Mature
 Yaris,2018,12490,Automatic,14000,Hybrid,135,76.3,1.5,Toyota,2010s,Japan,Asia,Low,Medium,7,Mature
 Octavia,2016,13995,Automatic,14000,Diesel,30,64.2,2.0,Skoda,2010s,Czech Republic,Europe,Low,Medium,9,Mature
@@ -6832,7 +6832,7 @@ Astra,2020,15890,Manual,6539,Petrol,145,54.3,1.2,Vauxhall,2020s,United Kingdom,E
 Arteon,2019,28995,Semi-Auto,7000,Petrol,145,47.1,2.0,Volkswagen,2010s,Germany,Europe,Low,Medium,6,Recent
 B Class,2014,10999,Automatic,29236,Diesel,30,64.2,1.5,Mercedes-Benz,2010s,Germany,Europe,Medium,Medium,11,Mature
 RAV4,2016,15000,Automatic,122280,Hybrid,20,55.4,2.5,Toyota,2010s,Japan,Asia,Very High,Large,9,Mature
-Focus,2019,18699,Manual,10000,Petrol,145,46.3,,Ford,2010s,United States,North America,Low,Unknown,6,Recent
+Focus,2019,18699,Manual,10000,Petrol,145,46.3,0.0,Ford,2010s,United States,North America,Low,Unknown,6,Recent
 A1,2017,13500,Manual,13000,Petrol,150,67.3,1.0,Audi,2010s,Germany,Europe,Low,Small,8,Mature
 Fabia,2014,6080,Semi-Auto,26276,Petrol,125,53.3,1.2,Skoda,2010s,Czech Republic,Europe,Medium,Small,11,Mature
 Polo,2016,10249,Manual,37831,Petrol,20,61.4,1.4,Volkswagen,2010s,Germany,Europe,Medium,Small,9,Mature
@@ -8026,7 +8026,7 @@ X3,2015,12250,Automatic,91083,Diesel,150,54.3,2.0,BMW,2010s,Germany,Europe,High,
 Auris,2015,13000,Automatic,41000,Hybrid,0,72.4,1.8,Toyota,2010s,Japan,Asia,Medium,Medium,10,Mature
 Hilux,2017,17998,Manual,39094,Diesel,260,40.4,2.4,Toyota,2010s,Japan,Asia,Medium,Medium,8,Mature
 A4,2019,27444,Automatic,6458,Diesel,145,47.1,2.0,Audi,2010s,Germany,Europe,Low,Medium,6,Recent
-A3,2019,22000,Manual,1500,Petrol,145,47.1,,Audi,2010s,Germany,Europe,Very Low,Unknown,6,Recent
+A3,2019,22000,Manual,1500,Petrol,145,47.1,0.0,Audi,2010s,Germany,Europe,Very Low,Unknown,6,Recent
 I20,2017,8480,Manual,10402,Petrol,145,58.9,1.2,Hyundai,2010s,South Korea,Asia,Low,Small,8,Mature
 X2,2020,24490,Semi-Auto,1,Diesel,145,52.3,2.0,BMW,2020s,Germany,Europe,Very Low,Medium,5,Recent
 Q3,2017,17990,Manual,33126,Diesel,145,56.5,2.0,Audi,2010s,Germany,Europe,Medium,Medium,8,Mature
@@ -8191,7 +8191,7 @@ Grandland X,2019,15991,Manual,5594,Petrol,145,44.1,1.2,Vauxhall,2010s,United Kin
 Auris,2013,10495,Automatic,34671,Hybrid,0,74.3,1.8,Toyota,2010s,Japan,Asia,Medium,Medium,12,Old
 Octavia,2016,7795,Manual,89230,Diesel,0,74.3,1.6,Skoda,2010s,Czech Republic,Europe,High,Medium,9,Mature
 2 Series,2020,26400,Semi-Auto,150,Petrol,145,42.2,1.5,BMW,2020s,Germany,Europe,Very Low,Medium,5,Recent
-Fiesta,2017,9204,Manual,28000,Petrol,145,65.7,,Ford,2010s,United States,North America,Medium,Unknown,8,Mature
+Fiesta,2017,9204,Manual,28000,Petrol,145,65.7,0.0,Ford,2010s,United States,North America,Medium,Unknown,8,Mature
 Focus,2019,15500,Manual,8580,Petrol,145,58.9,1.0,Ford,2010s,United States,North America,Low,Small,6,Recent
 Tiguan,2017,18000,Manual,20400,Petrol,150,48.7,1.4,Volkswagen,2010s,Germany,Europe,Medium,Small,8,Mature
 Kuga,2017,16699,Manual,13374,Diesel,150,60.1,2.0,Ford,2010s,United States,North America,Low,Medium,8,Mature
@@ -8233,7 +8233,7 @@ A Class,2016,10490,Manual,63000,Diesel,0,80.7,1.5,Mercedes-Benz,2010s,Germany,Eu
 A7,2016,20250,Semi-Auto,29000,Diesel,30,62.8,3.0,Audi,2010s,Germany,Europe,Medium,Large,9,Mature
 Polo,2016,9941,Manual,17607,Petrol,20,60.1,1.2,Volkswagen,2010s,Germany,Europe,Low,Small,9,Mature
 Tiguan,2020,39750,Semi-Auto,2999,Diesel,150,35.3,2.0,Volkswagen,2020s,Germany,Europe,Very Low,Medium,5,Recent
-Octavia,2017,15400,Automatic,19576,Diesel,145,61.4,,Skoda,2010s,Czech Republic,Europe,Low,Unknown,8,Mature
+Octavia,2017,15400,Automatic,19576,Diesel,145,61.4,0.0,Skoda,2010s,Czech Republic,Europe,Low,Unknown,8,Mature
 1 Series,2018,15495,Manual,7950,Petrol,145,37.7,1.5,BMW,2010s,Germany,Europe,Low,Medium,7,Mature
 Corsa,2018,8300,Manual,9201,Petrol,145,54.3,1.4,Vauxhall,2010s,United Kingdom,Europe,Low,Small,7,Mature
 Crossland X,2019,11698,Manual,18684,Petrol,145,44.8,1.2,Vauxhall,2010s,United Kingdom,Europe,Low,Small,6,Recent
@@ -8365,7 +8365,7 @@ Yaris,2019,10990,Manual,8437,Petrol,145,47.9,1.5,Toyota,2010s,Japan,Asia,Low,Med
 Yaris,2014,10250,Automatic,23855,Hybrid,0,76.3,1.5,Toyota,2010s,Japan,Asia,Medium,Medium,11,Mature
 Golf,2016,15999,Semi-Auto,56801,Diesel,30,62.8,2.0,Volkswagen,2010s,Germany,Europe,High,Medium,9,Mature
 C Class,2019,31980,Semi-Auto,3986,Diesel,145,61.4,2.0,Mercedes-Benz,2010s,Germany,Europe,Very Low,Medium,6,Recent
-Astra,2018,10000,Manual,32976,Petrol,145,51.4,,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,7,Mature
+Astra,2018,10000,Manual,32976,Petrol,145,51.4,0.0,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,7,Mature
 Fiesta,2018,9900,Manual,29626,Petrol,145,65.7,1.0,Ford,2010s,United States,North America,Medium,Small,7,Mature
 GLA Class,2017,17500,Manual,35069,Petrol,145,47.1,1.6,Mercedes-Benz,2010s,Germany,Europe,Medium,Medium,8,Mature
 A Class,2019,19490,Automatic,15221,Diesel,145,68.9,1.5,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,6,Recent
@@ -8679,7 +8679,7 @@ Q3,2019,33400,Semi-Auto,7021,Petrol,150,31.7,2.0,Audi,2010s,Germany,Europe,Low,M
 Touran,2017,18822,Semi-Auto,24017,Diesel,145,60.1,2.0,Volkswagen,2010s,Germany,Europe,Medium,Medium,8,Mature
 Polo,2019,14890,Manual,1440,Petrol,145,52.3,1.0,Volkswagen,2010s,Germany,Europe,Very Low,Small,6,Recent
 Fabia,2019,13495,Manual,5000,Petrol,145,52.3,1.0,Skoda,2010s,Czech Republic,Europe,Low,Small,6,Recent
-I20,2017,11400,Automatic,12661,Petrol,145,44.1,,Hyundai,2010s,South Korea,Asia,Low,Unknown,8,Mature
+I20,2017,11400,Automatic,12661,Petrol,145,44.1,0.0,Hyundai,2010s,South Korea,Asia,Low,Unknown,8,Mature
 C Class,2019,33998,Semi-Auto,3814,Petrol,145,44.1,1.5,Mercedes-Benz,2010s,Germany,Europe,Very Low,Medium,6,Recent
 Golf,2020,32998,Semi-Auto,5000,Hybrid,135,141.3,1.4,Volkswagen,2020s,Germany,Europe,Low,Small,5,Recent
 Focus,2015,9390,Semi-Auto,16370,Petrol,160,44.8,1.6,Ford,2010s,United States,North America,Low,Medium,10,Mature
@@ -8970,7 +8970,7 @@ Aygo,2019,8291,Manual,5081,Petrol,145,56.5,1.0,Toyota,2010s,Japan,Asia,Low,Small
 S Class,2018,89995,Semi-Auto,2928,Petrol,145,31.7,4.0,Mercedes-Benz,2010s,Germany,Europe,Very Low,Large,7,Mature
 Polo,2017,8999,Manual,53888,Petrol,145,60.1,1.2,Volkswagen,2010s,Germany,Europe,High,Small,8,Mature
 Superb,2019,28500,Semi-Auto,3389,Petrol,145,38.2,2.0,Skoda,2010s,Czech Republic,Europe,Very Low,Medium,6,Recent
-A Class,2018,20500,Automatic,13386,Petrol,145,53.3,,Mercedes-Benz,2010s,Germany,Europe,Low,Unknown,7,Mature
+A Class,2018,20500,Automatic,13386,Petrol,145,53.3,0.0,Mercedes-Benz,2010s,Germany,Europe,Low,Unknown,7,Mature
 Focus,2016,15998,Manual,26023,Diesel,20,67.3,2.0,Ford,2010s,United States,North America,Medium,Medium,9,Mature
 GT86,2019,24990,Manual,3150,Petrol,145,33.2,2.0,Toyota,2010s,Japan,Asia,Very Low,Medium,6,Recent
 Astra,2014,5399,Manual,42652,Diesel,20,72.4,1.2,Vauxhall,2010s,United Kingdom,Europe,Medium,Small,11,Mature
@@ -9018,7 +9018,7 @@ Polo,2017,9995,Manual,19114,Petrol,150,58.9,1.0,Volkswagen,2010s,Germany,Europe,
 Passat,2018,18698,Manual,7395,Petrol,145,56.5,1.4,Volkswagen,2010s,Germany,Europe,Low,Small,7,Mature
 X1,2019,25990,Automatic,15608,Petrol,150,46.3,1.5,BMW,2010s,Germany,Europe,Low,Medium,6,Recent
 Mokka X,2019,14160,Manual,11537,Petrol,145,39.2,1.4,Vauxhall,2010s,United Kingdom,Europe,Low,Small,6,Recent
-Fiesta,2017,11783,Automatic,23000,Petrol,0,57.7,,Ford,2010s,United States,North America,Medium,Unknown,8,Mature
+Fiesta,2017,11783,Automatic,23000,Petrol,0,57.7,0.0,Ford,2010s,United States,North America,Medium,Unknown,8,Mature
 Fiesta,2014,7140,Manual,32720,Petrol,0,65.7,1.0,Ford,2010s,United States,North America,Medium,Small,11,Mature
 Citigo,2016,5999,Manual,21747,Petrol,20,62.8,1.0,Skoda,2010s,Czech Republic,Europe,Medium,Small,9,Mature
 Insignia,2017,11700,Manual,30675,Petrol,145,47.1,1.5,Vauxhall,2010s,United Kingdom,Europe,Medium,Medium,8,Mature
@@ -10241,7 +10241,7 @@ Q5,2013,13991,Manual,67376,Diesel,200,47.9,2.0,Audi,2010s,Germany,Europe,High,Me
 Corsa,2017,7998,Manual,10647,Petrol,150,55.4,1.4,Vauxhall,2010s,United Kingdom,Europe,Low,Small,8,Mature
 Kuga,2019,25000,Semi-Auto,4181,Diesel,145,42.2,2.0,Ford,2010s,United States,North America,Very Low,Medium,6,Recent
 T-Roc,2018,17230,Manual,16731,Petrol,150,55.4,1.0,Volkswagen,2010s,Germany,Europe,Low,Small,7,Mature
-A Class,2018,17500,Automatic,19796,Diesel,145,74.3,,Mercedes-Benz,2010s,Germany,Europe,Low,Unknown,7,Mature
+A Class,2018,17500,Automatic,19796,Diesel,145,74.3,0.0,Mercedes-Benz,2010s,Germany,Europe,Low,Unknown,7,Mature
 Crossland X,2019,11899,Manual,20307,Petrol,145,47.1,1.2,Vauxhall,2010s,United Kingdom,Europe,Medium,Small,6,Recent
 Focus,2019,15400,Manual,10310,Petrol,145,49.6,1.0,Ford,2010s,United States,North America,Low,Small,6,Recent
 Fiesta,2017,10650,Manual,9813,Petrol,145,65.7,1.0,Ford,2010s,United States,North America,Low,Small,8,Mature
@@ -10516,7 +10516,7 @@ Focus,2019,15320,Manual,9010,Petrol,145,60.1,1.0,Ford,2010s,United States,North 
 EcoSport,2018,16199,Semi-Auto,9348,Petrol,150,44.1,1.0,Ford,2010s,United States,North America,Low,Small,7,Mature
 E Class,2017,21323,Automatic,23448,Diesel,165,52.3,3.0,Mercedes-Benz,2010s,Germany,Europe,Medium,Large,8,Mature
 Focus,2017,18500,Manual,10960,Petrol,145,41.5,2.0,Ford,2010s,United States,North America,Low,Medium,8,Mature
-A Class,2016,17500,Automatic,29712,Diesel,20,68.9,,Mercedes-Benz,2010s,Germany,Europe,Medium,Unknown,9,Mature
+A Class,2016,17500,Automatic,29712,Diesel,20,68.9,0.0,Mercedes-Benz,2010s,Germany,Europe,Medium,Unknown,9,Mature
 5 Series,2019,25450,Automatic,11525,Petrol,145,50.4,2.0,BMW,2010s,Germany,Europe,Low,Medium,6,Recent
 Q2,2019,21990,Semi-Auto,5445,Diesel,150,47.9,1.6,Audi,2010s,Germany,Europe,Low,Medium,6,Recent
 A7,2019,47750,Automatic,2800,Diesel,145,35.8,3.0,Audi,2010s,Germany,Europe,Very Low,Large,6,Recent
@@ -10592,7 +10592,7 @@ X4,2020,45500,Semi-Auto,1608,Petrol,145,26.9,3.0,BMW,2020s,Germany,Europe,Very L
 Crossland X,2019,16001,Manual,38000,Petrol,145,47.1,1.2,Vauxhall,2010s,United Kingdom,Europe,Medium,Small,6,Recent
 S Class,2019,54399,Semi-Auto,2384,Diesel,145,52.3,3.0,Mercedes-Benz,2010s,Germany,Europe,Very Low,Large,6,Recent
 Karoq,2018,17250,Manual,7344,Petrol,145,40.4,1.0,Skoda,2010s,Czech Republic,Europe,Low,Small,7,Mature
-Q3,2020,30000,Automatic,1500,Petrol,145,40.9,,Audi,2020s,Germany,Europe,Very Low,Unknown,5,Recent
+Q3,2020,30000,Automatic,1500,Petrol,145,40.9,0.0,Audi,2020s,Germany,Europe,Very Low,Unknown,5,Recent
 Fiesta,2017,10991,Manual,10995,Petrol,150,65.7,1.0,Ford,2010s,United States,North America,Low,Small,8,Mature
 Fiesta,2016,10750,Manual,17023,Petrol,20,62.8,1.0,Ford,2010s,United States,North America,Low,Small,9,Mature
 I20,2013,4783,Manual,55894,Petrol,30,57.6,1.2,Hyundai,2010s,South Korea,Asia,High,Small,12,Old
@@ -10989,7 +10989,7 @@ Fiesta,2018,11000,Manual,16830,Petrol,145,56.5,1.0,Ford,2010s,United States,Nort
 Golf,2014,9290,Manual,30000,Diesel,0,68.9,1.6,Volkswagen,2010s,Germany,Europe,Medium,Medium,11,Mature
 C Class,2018,23499,Semi-Auto,22000,Diesel,145,61.4,2.0,Mercedes-Benz,2010s,Germany,Europe,Medium,Medium,7,Mature
 Corolla,2019,19995,Automatic,11293,Hybrid,135,85.6,1.8,Toyota,2010s,Japan,Asia,Low,Medium,6,Recent
-GLA Class,2016,18700,Other,30895,Other,125,56.5,,Mercedes-Benz,2010s,Germany,Europe,Medium,Unknown,9,Mature
+GLA Class,2016,18700,Other,30895,Other,125,56.5,0.0,Mercedes-Benz,2010s,Germany,Europe,Medium,Unknown,9,Mature
 Focus,2018,13495,Manual,23047,Petrol,145,56.5,1.0,Ford,2010s,United States,North America,Medium,Small,7,Mature
 C Class,2019,28589,Semi-Auto,7075,Diesel,145,57.7,2.0,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,6,Recent
 Kuga,2019,18599,Manual,8116,Diesel,145,54.3,1.5,Ford,2010s,United States,North America,Low,Medium,6,Recent
@@ -11415,7 +11415,7 @@ Mokka X,2017,10495,Manual,27402,Petrol,145,47.1,1.4,Vauxhall,2010s,United Kingdo
 2 Series,2018,19600,Manual,15621,Diesel,145,60.1,2.0,BMW,2010s,Germany,Europe,Low,Medium,7,Mature
 E Class,2019,28850,Semi-Auto,11354,Diesel,145,58.9,2.0,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,6,Recent
 C Class,2019,32890,Semi-Auto,4025,Petrol,145,42.2,2.0,Mercedes-Benz,2010s,Germany,Europe,Very Low,Medium,6,Recent
-A5,2019,27000,Manual,1325,Petrol,145,37.7,,Audi,2010s,Germany,Europe,Very Low,Unknown,6,Recent
+A5,2019,27000,Manual,1325,Petrol,145,37.7,0.0,Audi,2010s,Germany,Europe,Very Low,Unknown,6,Recent
 EcoSport,2019,17200,Manual,3209,Petrol,145,51.4,1.0,Ford,2010s,United States,North America,Very Low,Small,6,Recent
 A4,2018,20290,Automatic,19450,Petrol,150,50.4,1.4,Audi,2010s,Germany,Europe,Low,Small,7,Mature
 S-MAX,2007,2995,Manual,129000,Diesel,200,45.6,1.8,Ford,2000s,United States,North America,Very High,Medium,18,Old
@@ -12521,7 +12521,7 @@ Up,2017,6800,Manual,20000,Petrol,145,64.2,1.0,Volkswagen,2010s,Germany,Europe,Me
 Crossland X,2018,10997,Manual,15029,Diesel,145,62.8,1.5,Vauxhall,2010s,United Kingdom,Europe,Low,Medium,7,Mature
 X1,2016,16400,Automatic,47406,Diesel,125,57.6,2.0,BMW,2010s,Germany,Europe,Medium,Medium,9,Mature
 EcoSport,2017,10400,Manual,15500,Petrol,150,53.3,1.0,Ford,2010s,United States,North America,Low,Small,8,Mature
-Q3,2020,31990,Automatic,1500,Petrol,145,40.4,,Audi,2020s,Germany,Europe,Very Low,Unknown,5,Recent
+Q3,2020,31990,Automatic,1500,Petrol,145,40.4,0.0,Audi,2020s,Germany,Europe,Very Low,Unknown,5,Recent
 T-Roc,2019,23979,Manual,896,Diesel,150,50.4,2.0,Volkswagen,2010s,Germany,Europe,Very Low,Medium,6,Recent
 4 Series,2019,25160,Semi-Auto,7208,Diesel,145,65.7,2.0,BMW,2010s,Germany,Europe,Low,Medium,6,Recent
 3 Series,2019,20147,Automatic,4393,Petrol,145,48.7,2.0,BMW,2010s,Germany,Europe,Very Low,Medium,6,Recent
@@ -14138,7 +14138,7 @@ A3,2015,6791,Manual,128000,Diesel,20,68.9,2.0,Audi,2010s,Germany,Europe,Very Hig
 IQ,2013,4849,Manual,41142,Petrol,0,64.2,1.0,Toyota,2010s,Japan,Asia,Medium,Small,12,Old
 Golf,2008,3480,Manual,89000,Diesel,200,46.3,2.0,Volkswagen,2000s,Germany,Europe,High,Medium,17,Old
 1 Series,2019,22995,Manual,1000,Petrol,145,44.1,1.5,BMW,2010s,Germany,Europe,Very Low,Medium,6,Recent
-Q3,2020,29990,Automatic,1500,Diesel,145,47.1,,Audi,2020s,Germany,Europe,Very Low,Unknown,5,Recent
+Q3,2020,29990,Automatic,1500,Diesel,145,47.1,0.0,Audi,2020s,Germany,Europe,Very Low,Unknown,5,Recent
 Viva,2017,5999,Manual,34390,Petrol,145,62.8,1.0,Vauxhall,2010s,United Kingdom,Europe,Medium,Small,8,Mature
 Corsa,2017,7000,Manual,56966,Petrol,30,55.4,1.4,Vauxhall,2010s,United Kingdom,Europe,High,Small,8,Mature
 E Class,2014,13291,Semi-Auto,66416,Diesel,205,47.1,3.0,Mercedes-Benz,2010s,Germany,Europe,High,Large,11,Mature
@@ -15311,7 +15311,7 @@ Tucson,2018,15691,Manual,9046,Petrol,145,44.8,1.6,Hyundai,2010s,South Korea,Asia
 3 Series,2019,27650,Semi-Auto,18200,Diesel,150,48.7,2.0,BMW,2010s,Germany,Europe,Low,Medium,6,Recent
 CLK,2002,3790,Automatic,98000,Petrol,325,24.6,5.0,Mercedes-Benz,2000s,Germany,Europe,High,Large,23,Vintage
 A5,2017,18500,Manual,30984,Diesel,145,68.9,2.0,Audi,2010s,Germany,Europe,Medium,Medium,8,Mature
-Corsa,2015,7000,Manual,37405,Petrol,125,53.3,,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,10,Mature
+Corsa,2015,7000,Manual,37405,Petrol,125,53.3,0.0,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,10,Mature
 Q3,2016,17395,Manual,34500,Diesel,160,49.6,2.0,Audi,2010s,Germany,Europe,Medium,Medium,9,Mature
 Tiguan,2018,24290,Semi-Auto,13727,Diesel,145,45.6,2.0,Volkswagen,2010s,Germany,Europe,Low,Medium,7,Mature
 Golf,2019,21790,Automatic,6915,Petrol,145,46.3,1.5,Volkswagen,2010s,Germany,Europe,Low,Medium,6,Recent
@@ -15376,7 +15376,7 @@ Focus,2012,6995,Manual,48734,Diesel,125,56.5,2.0,Ford,2010s,United States,North 
 Tiguan,2017,21500,Automatic,30300,Diesel,145,49.6,2.0,Volkswagen,2010s,Germany,Europe,Medium,Medium,8,Mature
 A Class,2018,15000,Manual,18841,Petrol,150,51.4,1.6,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,7,Mature
 Polo,2017,9899,Manual,17302,Petrol,150,60.1,1.0,Volkswagen,2010s,Germany,Europe,Low,Small,8,Mature
-Fiesta,2017,9999,Manual,19000,Petrol,145,85.6,,Ford,2010s,United States,North America,Low,Unknown,8,Mature
+Fiesta,2017,9999,Manual,19000,Petrol,145,85.6,0.0,Ford,2010s,United States,North America,Low,Unknown,8,Mature
 C-MAX,2009,2995,Manual,87500,Petrol,235,39.8,1.8,Ford,2000s,United States,North America,High,Medium,16,Old
 E Class,2020,44995,Semi-Auto,794,Diesel,145,57.7,2.0,Mercedes-Benz,2020s,Germany,Europe,Very Low,Medium,5,Recent
 Octavia,2018,15000,Automatic,5475,Diesel,145,67.3,2.0,Skoda,2010s,Czech Republic,Europe,Low,Medium,7,Mature
@@ -15639,7 +15639,7 @@ Q2,2019,24000,Automatic,5775,Petrol,150,40.9,1.5,Audi,2010s,Germany,Europe,Low,M
 Kuga,2017,13995,Manual,25916,Diesel,145,60.1,2.0,Ford,2010s,United States,North America,Medium,Medium,8,Mature
 Crossland X,2017,11394,Manual,24000,Petrol,150,57.7,1.2,Vauxhall,2010s,United Kingdom,Europe,Medium,Small,8,Mature
 Focus,2019,17000,Manual,4920,Diesel,145,80.7,1.5,Ford,2010s,United States,North America,Very Low,Medium,6,Recent
-Astra,2017,10700,Manual,21814,Diesel,20,68.9,,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,8,Mature
+Astra,2017,10700,Manual,21814,Diesel,20,68.9,0.0,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,8,Mature
 Corsa,2018,10495,Manual,7497,Petrol,145,54.3,1.4,Vauxhall,2010s,United Kingdom,Europe,Low,Small,7,Mature
 Aygo,2020,9995,Manual,500,Petrol,145,56.5,1.0,Toyota,2020s,Japan,Asia,Very Low,Small,5,Recent
 RS3,2020,42490,Automatic,320,Petrol,145,29.7,2.5,Audi,2020s,Germany,Europe,Very Low,Large,5,Recent
@@ -15675,7 +15675,7 @@ C Class,2018,22399,Semi-Auto,5678,Diesel,145,58.9,1.6,Mercedes-Benz,2010s,German
 Kona,2018,14995,Manual,15028,Petrol,145,52.3,1.0,Hyundai,2010s,South Korea,Asia,Low,Small,7,Mature
 Q7,2018,48000,Automatic,32093,Diesel,150,39.2,4.0,Audi,2010s,Germany,Europe,Medium,Large,7,Mature
 Fabia,2017,8900,Manual,15817,Petrol,145,64.2,1.0,Skoda,2010s,Czech Republic,Europe,Low,Small,8,Mature
-Insignia,2017,13000,Manual,36595,Petrol,145,47.1,,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,8,Mature
+Insignia,2017,13000,Manual,36595,Petrol,145,47.1,0.0,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,8,Mature
 Kuga,2017,15000,Manual,33808,Diesel,150,54.3,2.0,Ford,2010s,United States,North America,Medium,Medium,8,Mature
 Mokka X,2017,12200,Automatic,23607,Petrol,160,43.5,1.4,Vauxhall,2010s,United Kingdom,Europe,Medium,Small,8,Mature
 6 Series,2018,28495,Semi-Auto,21525,Diesel,145,49.6,3.0,BMW,2010s,Germany,Europe,Medium,Large,7,Mature
@@ -16126,7 +16126,7 @@ Astra,2019,11998,Manual,16026,Petrol,150,51.4,1.4,Vauxhall,2010s,United Kingdom,
 Passat,2015,9999,Manual,82220,Diesel,20,67.3,2.0,Volkswagen,2010s,Germany,Europe,High,Medium,10,Mature
 A4,2014,11950,Manual,60604,Diesel,20,67.3,2.0,Audi,2010s,Germany,Europe,High,Medium,11,Mature
 A Class,2016,22299,Semi-Auto,15550,Petrol,200,42.8,2.0,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,9,Mature
-EcoSport,2015,8500,Manual,33403,Diesel,30,61.4,,Ford,2010s,United States,North America,Medium,Unknown,10,Mature
+EcoSport,2015,8500,Manual,33403,Diesel,30,61.4,0.0,Ford,2010s,United States,North America,Medium,Unknown,10,Mature
 Kuga,2017,12699,Manual,36710,Diesel,145,64.2,1.5,Ford,2010s,United States,North America,Medium,Medium,8,Mature
 3 Series,2009,4675,Manual,70000,Petrol,165,47.9,2.0,BMW,2000s,Germany,Europe,High,Medium,16,Old
 Polo,2019,11495,Manual,11345,Petrol,150,48.7,1.0,Volkswagen,2010s,Germany,Europe,Low,Small,6,Recent
@@ -16303,7 +16303,7 @@ Fiesta,2017,8995,Manual,26163,Petrol,145,65.7,1.0,Ford,2010s,United States,North
 Tiguan,2017,16425,Automatic,36851,Diesel,145,57.6,2.0,Volkswagen,2010s,Germany,Europe,Medium,Medium,8,Mature
 3 Series,2018,17240,Automatic,40739,Diesel,145,64.2,2.0,BMW,2010s,Germany,Europe,Medium,Medium,7,Mature
 Golf,2016,15295,Manual,34192,Diesel,20,67.3,2.0,Volkswagen,2010s,Germany,Europe,Medium,Medium,9,Mature
-Focus,2018,18389,Manual,19000,Petrol,145,67.3,,Ford,2010s,United States,North America,Low,Unknown,7,Mature
+Focus,2018,18389,Manual,19000,Petrol,145,67.3,0.0,Ford,2010s,United States,North America,Low,Unknown,7,Mature
 Fiesta,2015,8999,Manual,15828,Petrol,20,62.8,1.0,Ford,2010s,United States,North America,Low,Small,10,Mature
 Grandland X,2019,22890,Manual,2012,Petrol,145,45.6,1.2,Vauxhall,2010s,United Kingdom,Europe,Very Low,Small,6,Recent
 C Class,2017,24698,Semi-Auto,28631,Diesel,150,67.3,2.1,Mercedes-Benz,2010s,Germany,Europe,Medium,Medium,8,Mature
@@ -16982,7 +16982,7 @@ Zafira Tourer,2017,11400,Manual,8131,Petrol,145,41.5,1.4,Vauxhall,2010s,United K
 Octavia,2019,14995,Semi-Auto,10925,Diesel,150,70.6,1.6,Skoda,2010s,Czech Republic,Europe,Low,Medium,6,Recent
 RAV4,2017,19990,Automatic,23000,Hybrid,20,57.6,2.5,Toyota,2010s,Japan,Asia,Medium,Large,8,Mature
 Tucson,2016,15199,Automatic,10682,Diesel,125,57.6,1.7,Hyundai,2010s,South Korea,Asia,Low,Medium,9,Mature
-i3,2015,17481,Automatic,9886,Hybrid,0,470.8,,BMW,2010s,Germany,Europe,Low,Unknown,10,Mature
+i3,2015,17481,Automatic,9886,Hybrid,0,470.8,0.0,BMW,2010s,Germany,Europe,Low,Unknown,10,Mature
 3 Series,2015,14990,Automatic,66000,Diesel,145,53.3,3.0,BMW,2010s,Germany,Europe,High,Large,10,Mature
 Golf,2013,10495,Automatic,84350,Diesel,30,62.8,2.0,Volkswagen,2010s,Germany,Europe,High,Medium,12,Old
 1 Series,2017,15000,Automatic,29828,Diesel,20,67.3,2.0,BMW,2010s,Germany,Europe,Medium,Medium,8,Mature
@@ -17309,7 +17309,7 @@ Fiesta,2016,8000,Manual,13440,Petrol,125,54.3,1.2,Ford,2010s,United States,North
 Ka+,2018,9190,Manual,11990,Petrol,150,43.5,1.2,Ford,2010s,United States,North America,Low,Small,7,Mature
 C-MAX,2017,13000,Manual,3259,Diesel,145,68.9,1.5,Ford,2010s,United States,North America,Very Low,Medium,8,Mature
 A3,2019,22000,Automatic,11547,Petrol,150,42.2,1.5,Audi,2010s,Germany,Europe,Low,Medium,6,Recent
-Astra,2017,10500,Manual,42197,Petrol,145,47.1,,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,8,Mature
+Astra,2017,10500,Manual,42197,Petrol,145,47.1,0.0,Vauxhall,2010s,United Kingdom,Europe,Medium,Unknown,8,Mature
 Golf,2013,8290,Manual,65519,Petrol,125,53.3,1.4,Volkswagen,2010s,Germany,Europe,High,Small,12,Old
 Fiesta,2016,8500,Manual,42195,Petrol,20,62.8,1.0,Ford,2010s,United States,North America,Medium,Small,9,Mature
 EcoSport,2018,10498,Manual,59498,Diesel,145,68.9,1.5,Ford,2010s,United States,North America,High,Medium,7,Mature
@@ -17578,7 +17578,7 @@ Polo,2018,11100,Manual,10538,Petrol,145,60.1,1.0,Volkswagen,2010s,Germany,Europe
 GLC Class,2018,29190,Automatic,12523,Diesel,145,56.5,2.1,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,7,Mature
 Grandland X,2018,13998,Manual,29094,Diesel,145,56.5,1.5,Vauxhall,2010s,United Kingdom,Europe,Medium,Medium,7,Mature
 Yaris,2018,9300,Manual,11554,Petrol,145,48.7,1.0,Toyota,2010s,Japan,Asia,Low,Small,7,Mature
-Astra,2017,10900,Manual,18317,Petrol,145,51.4,,Vauxhall,2010s,United Kingdom,Europe,Low,Unknown,8,Mature
+Astra,2017,10900,Manual,18317,Petrol,145,51.4,0.0,Vauxhall,2010s,United Kingdom,Europe,Low,Unknown,8,Mature
 1 Series,2019,26000,Manual,2073,Diesel,145,57.7,1.5,BMW,2010s,Germany,Europe,Very Low,Medium,6,Recent
 A6,2015,17100,Automatic,32083,Diesel,30,61.4,2.0,Audi,2010s,Germany,Europe,Medium,Medium,10,Mature
 Focus,2018,11497,Manual,9379,Petrol,145,61.4,1.0,Ford,2010s,United States,North America,Low,Small,7,Mature
@@ -17614,7 +17614,7 @@ A Class,2015,13109,Semi-Auto,24091,Diesel,20,68.9,2.1,Mercedes-Benz,2010s,German
 T-Cross,2020,20996,Manual,1006,Petrol,145,47.9,1.0,Volkswagen,2020s,Germany,Europe,Very Low,Small,5,Recent
 3 Series,2019,34995,Semi-Auto,4255,Diesel,145,49.6,2.0,BMW,2010s,Germany,Europe,Very Low,Medium,6,Recent
 Octavia,2019,13998,Semi-Auto,16162,Diesel,145,70.6,1.6,Skoda,2010s,Czech Republic,Europe,Low,Medium,6,Recent
-Puma,2019,23999,Manual,3000,Hybrid,150,50.4,,Ford,2010s,United States,North America,Very Low,Unknown,6,Recent
+Puma,2019,23999,Manual,3000,Hybrid,150,50.4,0.0,Ford,2010s,United States,North America,Very Low,Unknown,6,Recent
 Focus,2019,18498,Manual,5532,Petrol,145,48.7,1.0,Ford,2010s,United States,North America,Low,Small,6,Recent
 Yaris,2017,15295,Automatic,16523,Hybrid,0,78.0,1.5,Toyota,2010s,Japan,Asia,Low,Medium,8,Mature
 A Class,2015,11623,Automatic,61884,Diesel,20,68.9,2.1,Mercedes-Benz,2010s,Germany,Europe,High,Medium,10,Mature
@@ -17969,7 +17969,7 @@ X1,2015,17291,Semi-Auto,29135,Diesel,125,57.6,2.0,BMW,2010s,Germany,Europe,Mediu
 Auris,2018,18995,Automatic,9197,Hybrid,135,65.6,1.8,Toyota,2010s,Japan,Asia,Low,Medium,7,Mature
 Crossland X,2019,10999,Manual,11901,Petrol,150,47.1,1.2,Vauxhall,2010s,United Kingdom,Europe,Low,Small,6,Recent
 GLC Class,2017,26995,Semi-Auto,33153,Diesel,145,56.5,2.1,Mercedes-Benz,2010s,Germany,Europe,Medium,Medium,8,Mature
-Q3,2017,19300,Manual,16051,Diesel,150,52.3,,Audi,2010s,Germany,Europe,Low,Unknown,8,Mature
+Q3,2017,19300,Manual,16051,Diesel,150,52.3,0.0,Audi,2010s,Germany,Europe,Low,Unknown,8,Mature
 C Class,2018,25748,Automatic,5454,Diesel,145,65.7,2.1,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,7,Mature
 Focus,2019,15850,Manual,7288,Petrol,145,60.1,1.0,Ford,2010s,United States,North America,Low,Small,6,Recent
 KA,2015,4995,Manual,41800,Petrol,30,57.7,1.2,Ford,2010s,United States,North America,Medium,Small,10,Mature
@@ -18072,7 +18072,7 @@ Passat,2015,8522,Manual,73938,Diesel,20,70.6,1.6,Volkswagen,2010s,Germany,Europe
 Fabia,2019,12590,Manual,3972,Petrol,145,52.3,1.0,Skoda,2010s,Czech Republic,Europe,Very Low,Small,6,Recent
 T-Roc,2020,23590,Manual,2920,Diesel,145,50.4,2.0,Volkswagen,2020s,Germany,Europe,Very Low,Medium,5,Recent
 CLS Class,2016,25077,Automatic,13887,Diesel,165,49.6,3.0,Mercedes-Benz,2010s,Germany,Europe,Low,Large,9,Mature
-Ka+,2019,9999,Manual,5000,Petrol,145,47.9,,Ford,2010s,United States,North America,Low,Unknown,6,Recent
+Ka+,2019,9999,Manual,5000,Petrol,145,47.9,0.0,Ford,2010s,United States,North America,Low,Unknown,6,Recent
 Golf,2015,7990,Manual,40000,Diesel,0,68.9,1.6,Volkswagen,2010s,Germany,Europe,Medium,Medium,10,Mature
 Fiesta,2013,6500,Manual,44000,Petrol,0,65.7,1.0,Ford,2010s,United States,North America,Medium,Small,12,Old
 GLA Class,2015,17790,Semi-Auto,30000,Diesel,125,55.4,2.1,Mercedes-Benz,2010s,Germany,Europe,Medium,Medium,10,Mature
@@ -18639,7 +18639,7 @@ Avensis,2018,13695,Manual,37191,Diesel,145,67.3,1.6,Toyota,2010s,Japan,Asia,Medi
 Astra,2017,9740,Manual,24872,Diesel,145,76.3,1.6,Vauxhall,2010s,United Kingdom,Europe,Medium,Medium,8,Mature
 A4,2016,18000,Manual,23596,Petrol,145,48.7,2.0,Audi,2010s,Germany,Europe,Medium,Medium,9,Mature
 Fabia,2019,11785,Manual,2999,Petrol,145,51.4,1.0,Skoda,2010s,Czech Republic,Europe,Very Low,Small,6,Recent
-Q3,2020,33990,Automatic,1500,Diesel,145,47.1,,Audi,2020s,Germany,Europe,Very Low,Unknown,5,Recent
+Q3,2020,33990,Automatic,1500,Diesel,145,47.1,0.0,Audi,2020s,Germany,Europe,Very Low,Unknown,5,Recent
 C Class,2019,19690,Automatic,13337,Diesel,145,61.4,2.0,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,6,Recent
 EcoSport,2018,14500,Manual,15644,Petrol,145,54.3,1.0,Ford,2010s,United States,North America,Low,Small,7,Mature
 Aygo,2017,6998,Manual,8044,Petrol,145,69.0,1.0,Toyota,2010s,Japan,Asia,Low,Small,8,Mature
@@ -18662,7 +18662,7 @@ Aygo,2017,7695,Manual,12847,Petrol,145,69.0,1.0,Toyota,2010s,Japan,Asia,Low,Smal
 A Class,2019,21450,Semi-Auto,11597,Diesel,145,67.3,1.5,Mercedes-Benz,2010s,Germany,Europe,Low,Medium,6,Recent
 1 Series,2017,12499,Automatic,27656,Diesel,145,72.4,1.5,BMW,2010s,Germany,Europe,Medium,Medium,8,Mature
 Fiesta,2018,11500,Manual,16988,Petrol,145,56.5,1.0,Ford,2010s,United States,North America,Low,Small,7,Mature
-A Class,2018,18000,Automatic,18347,Diesel,150,65.7,,Mercedes-Benz,2010s,Germany,Europe,Low,Unknown,7,Mature
+A Class,2018,18000,Automatic,18347,Diesel,150,65.7,0.0,Mercedes-Benz,2010s,Germany,Europe,Low,Unknown,7,Mature
 Octavia,2017,15500,Manual,29959,Diesel,145,56.5,2.0,Skoda,2010s,Czech Republic,Europe,Medium,Medium,8,Mature
 RAV4,2015,13698,Automatic,43830,Diesel,260,42.2,2.2,Toyota,2010s,Japan,Asia,Medium,Medium,10,Mature
 Fabia,2019,9495,Manual,13120,Petrol,145,57.7,1.0,Skoda,2010s,Czech Republic,Europe,Low,Small,6,Recent

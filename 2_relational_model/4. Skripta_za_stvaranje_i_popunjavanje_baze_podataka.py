@@ -1,44 +1,10 @@
 import pandas as pd
-from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, text
+from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, text, UniqueConstraint
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 
 CSV_FILE_PATH = "2_relational_model/processed/cars_data_80.csv"
 df = pd.read_csv(CSV_FILE_PATH)
 print("CSV size: ", df.shape)
-print("Data types:")
-print(df.dtypes)
-print("Missing values per column:")
-print(df.isnull().sum())
-
-# Clean the data - handle NaN values
-print("\n=== Data Cleaning ===")
-# Fill NaN values in numeric columns with appropriate defaults
-numeric_columns = ['price', 'mileage', 'tax', 'mpg', 'engineSize', 'age']
-for col in numeric_columns:
-    if col in df.columns:
-        before_nan = df[col].isnull().sum()
-        if before_nan > 0:
-            if col in ['price', 'mileage', 'tax', 'age']:
-                # Use median for these columns
-                df[col] = df[col].fillna(df[col].median())
-            else:
-                # Use mean for mpg and engineSize
-                df[col] = df[col].fillna(df[col].mean())
-            print(f"Filled {before_nan} NaN values in {col} column")
-
-# Fill NaN values in categorical columns with 'Unknown'
-categorical_columns = ['model', 'transmission', 'fuelType', 'manufacturer', 
-                      'decade', 'country', 'region', 'mileageCategory', 
-                      'engineSizeClass', 'ageCategory']
-for col in categorical_columns:
-    if col in df.columns:
-        before_nan = df[col].isnull().sum()
-        if before_nan > 0:
-            df[col] = df[col].fillna('Unknown')
-            print(f"Filled {before_nan} NaN values in {col} column")
-
-print("After cleaning - Missing values per column:")
-print(df.isnull().sum())
 print(df.head())
 
 Base = declarative_base()
@@ -59,13 +25,38 @@ engine = create_engine('mysql+pymysql://root:root@localhost:3306/cars', echo=Fal
 
 # Define database schema
 #-----------------------------------------------------------------------------------------------------
+class Region(Base):
+    __tablename__ = 'region'
+    region_id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(45), nullable=False, unique=True)
+    countries = relationship('Country', back_populates='region')
+
+class Country(Base):
+    __tablename__ = 'country'
+    country_id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(45), nullable=False, unique=True)
+    region_id = Column(Integer, ForeignKey('region.region_id'))
+    region = relationship('Region', back_populates='countries')
+    manufacturers = relationship('Manufacturer', back_populates='country')
+
 class Manufacturer(Base):
     __tablename__ = 'manufacturer'
     manufacturer_id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(45), nullable=False, unique=True)
-    country = Column(String(45), nullable=False)
-    region = Column(String(45), nullable=False)
-    cars = relationship('Car', back_populates='manufacturer')
+    country_id = Column(Integer, ForeignKey('country.country_id'))
+    country = relationship('Country', back_populates='manufacturers')
+    models = relationship('Model', back_populates='manufacturer')
+
+class Model(Base):
+    __tablename__ = 'model'
+    model_id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(45), nullable=False)
+    manufacturer_id = Column(Integer, ForeignKey('manufacturer.manufacturer_id'))
+    manufacturer = relationship('Manufacturer', back_populates='models')
+    cars = relationship('Car', back_populates='model')
+    
+    # Ensure unique model names per manufacturer
+    __table_args__ = (UniqueConstraint('name', 'manufacturer_id', name='unique_model_per_manufacturer'),)
 
 class TransmissionType(Base):
     __tablename__ = 'transmission_type'
@@ -106,7 +97,6 @@ class AgeCategory(Base):
 class Car(Base):
     __tablename__ = 'car'
     car_id = Column(Integer, primary_key=True, autoincrement=True)
-    model = Column(String(45), nullable=False)
     year = Column(Integer, nullable=False)
     price = Column(Integer, nullable=False)
     mileage = Column(Integer, nullable=False)
@@ -116,7 +106,7 @@ class Car(Base):
     age = Column(Integer, nullable=False)
     
     # Foreign keys
-    manufacturer_id = Column(Integer, ForeignKey('manufacturer.manufacturer_id'))
+    model_id = Column(Integer, ForeignKey('model.model_id'))
     transmission_id = Column(Integer, ForeignKey('transmission_type.transmission_id'))
     fuel_id = Column(Integer, ForeignKey('fuel_type.fuel_id'))
     decade_id = Column(Integer, ForeignKey('decade.decade_id'))
@@ -125,7 +115,7 @@ class Car(Base):
     age_category_id = Column(Integer, ForeignKey('age_category.age_category_id'))
     
     # Relationships
-    manufacturer = relationship('Manufacturer', back_populates='cars')
+    model = relationship('Model', back_populates='cars')
     transmission = relationship('TransmissionType', back_populates='cars')
     fuel = relationship('FuelType', back_populates='cars')
     decade_ref = relationship('Decade', back_populates='cars')
@@ -141,17 +131,49 @@ session = Session()
 
 # Populate tables
 #-----------------------------------------------------------------------------------------------------
+# Populate Region table first
+regions = {}  # Cache for regions
+for region in df['region'].unique():
+    region_obj = Region(name=region)
+    session.add(region_obj)
+    regions[region] = region_obj
+session.commit()
+
+# Populate Country table
+countries = {}  # Cache for countries
+country_data = df[['country', 'region']].drop_duplicates()
+for _, row in country_data.iterrows():
+    country = Country(
+        name=row['country'],
+        region=regions[row['region']]
+    )
+    session.add(country)
+    countries[row['country']] = country
+session.commit()
+
 # Populate Manufacturer table
 manufacturers = {}  # Cache for manufacturers
-manufacturer_data = df[['manufacturer', 'country', 'region']].drop_duplicates()
+manufacturer_data = df[['manufacturer', 'country']].drop_duplicates()
 for _, row in manufacturer_data.iterrows():
     manufacturer = Manufacturer(
         name=row['manufacturer'],
-        country=row['country'],
-        region=row['region']
+        country=countries[row['country']]
     )
     session.add(manufacturer)
     manufacturers[row['manufacturer']] = manufacturer
+session.commit()
+
+# Populate Model table
+models = {}  # Cache for models
+model_data = df[['model', 'manufacturer']].drop_duplicates()
+for _, row in model_data.iterrows():
+    model = Model(
+        name=row['model'],
+        manufacturer=manufacturers[row['manufacturer']]
+    )
+    session.add(model)
+    # Use tuple as key to handle same model names across manufacturers
+    models[(row['model'], row['manufacturer'])] = model
 session.commit()
 
 # Populate TransmissionType table
@@ -205,7 +227,6 @@ session.commit()
 # Populate Car table
 for _, row in df.iterrows():
     car = Car(
-        model=row['model'],
         year=row['year'],
         price=row['price'],
         mileage=row['mileage'],
@@ -213,7 +234,7 @@ for _, row in df.iterrows():
         mpg=row['mpg'],
         engineSize=row['engineSize'],
         age=row['age'],
-        manufacturer=manufacturers[row['manufacturer']],
+        model=models[(row['model'], row['manufacturer'])],
         transmission=transmissions[row['transmission']],
         fuel=fueltypes[row['fuelType']],
         decade_ref=decades[row['decade']],
@@ -229,7 +250,10 @@ print(f"Total cars inserted: {len(df)}")
 
 # Print summary statistics
 print("\n=== Database Population Summary ===")
+print(f"Regions: {len(regions)}")
+print(f"Countries: {len(countries)}")
 print(f"Manufacturers: {len(manufacturers)}")
+print(f"Models: {len(models)}")
 print(f"Transmission types: {len(transmissions)}")
 print(f"Fuel types: {len(fueltypes)}")
 print(f"Decades: {len(decades)}")
