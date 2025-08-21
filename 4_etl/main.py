@@ -17,7 +17,7 @@ def main():
     # Load data
     print("🚀 Starting data extraction")
     mysql_df = extract_all_tables()
-    csv_df = {"csv_sales":extract_from_csv("2_relational_model/processed/WA_Sales_Products_2012-14_PROCESSED_20.csv")}
+    csv_df = {"csv_cars": extract_from_csv("2_relational_model/processed/cars_data_20.csv")}
     merged_df = {**mysql_df, **csv_df}
     print("✅ Data extraction completed")
 

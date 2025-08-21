@@ -1,51 +1,76 @@
-from transform.dimensions.product_dim import transform_product_dim
-from transform.dimensions.country_dim import transform_country_dim
-from transform.facts.sales_fact import transform_sales_fact
-from transform.dimensions.retailer_dim import transform_retailer_dim
+from transform.dimensions.manufacturer_dim import transform_manufacturer_dim
+from transform.dimensions.vehicle_dim import transform_vehicle_dim
+from transform.dimensions.transmission_dim import transform_transmission_dim
+from transform.dimensions.fuel_dim import transform_fuel_dim
+from transform.dimensions.location_dim import transform_location_dim
 from transform.dimensions.date_dim import transform_date_dim
+from transform.facts.car_sales_fact import transform_car_sales_fact
 
 
 def run_transformations(raw_data):
-    # Transform dimensions
-    product_dim = transform_product_dim(
-    raw_data["product"],
-    raw_data["product_type"],
-    raw_data["product_line"],
-    csv_sales_df=raw_data.get("csv_sales")
-    )
-    print("1️⃣ Product dimension complete")
+    """Transform raw car data into dimensional model"""
     
-    country_dim = transform_country_dim(
+    # Transform dimensions
+    manufacturer_dim = transform_manufacturer_dim(
+        raw_data["manufacturer"],
         raw_data["country"],
-        csv_country_df=raw_data.get("csv_sales")
+        raw_data["region"],
+        csv_cars_df=raw_data.get("csv_cars")
     )
-    print("2️⃣ Country dimension complete")
+    print("1️⃣ Manufacturer dimension complete")
+    
+    vehicle_dim = transform_vehicle_dim(
+        raw_data["model"],
+        raw_data["manufacturer"],
+        raw_data["mileage_category"],
+        raw_data["engine_size_class"],
+        raw_data["age_category"],
+        csv_cars_df=raw_data.get("csv_cars")
+    )
+    print("2️⃣ Vehicle dimension complete")
 
-    retailer_dim = transform_retailer_dim(
-        raw_data["retailer_type"],
-        csv_retailer_df=raw_data.get("csv_sales")
+    transmission_dim = transform_transmission_dim(
+        raw_data["transmission_type"],
+        csv_cars_df=raw_data.get("csv_cars")
     )
-    print("3️⃣ Retailer dimension complete")
+    print("3️⃣ Transmission dimension complete")
+    
+    fuel_dim = transform_fuel_dim(
+        raw_data["fuel_type"],
+        csv_cars_df=raw_data.get("csv_cars")
+    )
+    print("4️⃣ Fuel dimension complete")
+    
+    location_dim = transform_location_dim(
+        raw_data["country"],
+        raw_data["region"]
+    )
+    print("5️⃣ Location dimension complete")
 
     date_dim = transform_date_dim(
-        raw_data["sales"],
-        csv_date_df=raw_data.get("csv_sales")
+        raw_data["decade"],
+        csv_cars_df=raw_data.get("csv_cars")
     )
-    print("4️⃣ Time dimension complete")
+    print("6️⃣ Date dimension complete")
 
-    fact_sales = transform_sales_fact(
+    # Transform fact table
+    car_sales_fact = transform_car_sales_fact(
         raw_data,
-        product_dim,
-        country_dim,
-        retailer_dim,
+        manufacturer_dim,
+        vehicle_dim,
+        transmission_dim,
+        fuel_dim,
+        location_dim,
         date_dim
     )
-    print("5️⃣ Sales fact table complete")
+    print("7️⃣ Car sales fact table complete")
 
     return {
-        "dim_product": product_dim,
-        "dim_country": country_dim,
-        "dim_retailer": retailer_dim,
+        "dim_manufacturer": manufacturer_dim,
+        "dim_vehicle": vehicle_dim,
+        "dim_transmission": transmission_dim,
+        "dim_fuel": fuel_dim,
+        "dim_location": location_dim,
         "dim_date": date_dim,
-        "fact_sales": fact_sales
+        "fact_car_sales": car_sales_fact
     }

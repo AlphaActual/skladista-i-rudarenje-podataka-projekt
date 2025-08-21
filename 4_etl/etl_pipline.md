@@ -1,74 +1,121 @@
-# 📊 ETL Pipeline – Pregled
+# ETL Pipeline - Car Sales Data Warehouse
 
-Ovaj dokument opisuje ETL (Extract, Transform, Load) proces korištenjem Apache Sparka i PySparka. Podaci se prikupljaju iz dvije izvore: relacijske baze podataka i CSV datoteke, transformiraju i učitavaju u skladište podataka.
+This ETL pipeline transforms car sales data from both MySQL relational database and CSV files into a dimensional star schema for analytical processing.
 
----
+## Pipeline Overview
 
-## 🧩 Faze ETL procesa
+### Extract Phase
+- **MySQL Database**: Extracts normalized relational data from the `cars` database
+- **CSV Files**: Extracts raw car data from processed CSV files
+- **Technology**: PySpark with JDBC connector for MySQL
 
-### 1. 📥 Ekstrakcija (Extract)
+### Transform Phase
+Transforms relational data into dimensional model with:
 
-**Cilj:** Prikupljanje sirovih podataka iz:
+#### Dimension Tables
+1. **Dim_Manufacturer** (SCD Type 2)
+   - Manufacturer information with country and region
+   - Tracks historical changes in manufacturer data
 
-- ✅ **Relacijske baze podataka** (npr. PostgreSQL, MySQL)
-- ✅ **CSV datoteke** (lokalna pohrana ili cloud)
+2. **Dim_Vehicle** (SCD Type 2) 
+   - Vehicle model information with categories
+   - Includes mileage, engine size, and age categories
 
-**Alati/metode:**
-- `spark.read.format("jdbc")` – za čitanje iz baze
-- `spark.read.csv()` – za učitavanje CSV datoteke
+3. **Dim_Transmission** (SCD Type 1)
+   - Transmission types (Manual, Automatic, Semi-Auto)
+   - Simple overwrite strategy
 
----
+4. **Dim_Fuel** (SCD Type 2)
+   - Fuel types with historical tracking
+   - Supports evolution of fuel technologies
 
-### 2. 🔧 Transformacija (Transform)
+5. **Dim_Location** (SCD Type 1)
+   - Geographic information (country, region)
+   - Rarely changing geographic data
 
-**Cilj:** Priprema podataka za učitavanje:
+6. **Dim_Date** (SCD Type 0)
+   - Year and decade information
+   - Static temporal dimension
 
-- Čišćenje (null vrijednosti, duplikati)
-- Promjena tipova podataka
-- Filtriranje i odabir relevantnih podataka
-- Spajanje podataka iz baze i CSV-a (ako je potrebno)
-- Poslovna logika (npr. agregacije, izračuni)
-- Preimenovanje ili reorganizacija kolona
+#### Fact Table
+- **Fact_Car_Sales**: Central fact table with measures:
+  - Price, mileage, tax, MPG, engine size, age
+  - Foreign keys to all dimensions
 
-**Alati/metode:**
-- `.withColumn()`, `.select()`, `.filter()`, `.join()`, `.groupBy()` i druge PySpark transformacije
+### Load Phase
+- **Target**: MySQL data warehouse (`cars_dw` database)
+- **Mode**: Overwrite for full refresh
+- **Fallback**: CSV export if database unavailable
 
----
+## File Structure
 
-### 3. 📤 Učitavanje (Load)
+```
+4_etl/
+├── main.py                    # Main ETL orchestrator
+├── spark_session.py           # Spark session configuration
+├── extract/
+│   ├── extract_mysql.py       # MySQL data extraction
+│   └── extract_csv.py         # CSV data extraction
+├── transform/
+│   ├── pipeline.py            # Transform orchestrator
+│   ├── dimensions/
+│   │   ├── manufacturer_dim.py
+│   │   ├── vehicle_dim.py
+│   │   ├── transmission_dim.py
+│   │   ├── fuel_dim.py
+│   │   ├── location_dim.py
+│   │   └── date_dim.py
+│   └── facts/
+│       └── car_sales_fact.py
+├── load/
+│   └── run_loading.py         # Data warehouse loading
+└── output/                    # CSV fallback exports
+```
 
-**Cilj:** Učitavanje obrađenih podataka u skladište podataka (data warehouse)
+## Prerequisites
 
-**Mogućnosti:**
-- Izvoz u Parquet/CSV na objektno spremište (npr. S3)
-- Direktno pisanje u bazu putem JDBC konekcije
-- Korištenje specifičnih konektora (npr. Redshift, Snowflake, BigQuery)
+1. **MySQL Server** running on localhost:3306
+2. **MySQL Databases**:
+   - `cars` (source relational database)
+   - `cars_dw` (target data warehouse)
+3. **MySQL Connector JAR**: `Connectors/mysql-connector-j-9.2.0.jar`
+4. **Python Dependencies**: PySpark, PyMySQL (see requirements.txt)
 
-**Alati/metode:**
-- `write.format("jdbc")`
-- `write.mode("overwrite").save()`
-- Skladište-specifični konektori
+## Running the Pipeline
 
----
+```bash
+cd 4_etl
+python main.py
+```
 
-## 🧱 Arhitektura Pipelinea
+## Data Flow
 
-| Korak | Zadatak | Tehnologija / metoda |
-|-------|---------|-----------------------|
-| 1 | Čitanje iz relacijske baze | `spark.read.format("jdbc")` |
-| 2 | Čitanje CSV datoteke | `spark.read.csv()` |
-| 3 | Čišćenje i priprema podataka | PySpark transformacije |
-| 4 | Spajanje podataka | `.join()` |
-| 5 | Poslovna logika i obrada | `.withColumn()`, `.groupBy()`, itd. |
-| 6 | Učitavanje u skladište podataka | `write.format("jdbc")` ili konektor |
+1. **Extract**: Load data from MySQL `cars` database and CSV files
+2. **Transform**: 
+   - Create dimension tables with proper SCD implementation
+   - Build fact table with dimension key lookups
+   - Handle data quality and missing values
+3. **Load**: Write dimensional model to `cars_dw` database
 
----
+## Key Features
 
-## ✅ Napomene
+- **Hybrid Source Support**: Processes both database and CSV data
+- **SCD Implementation**: Multiple slowly changing dimension strategies
+- **Data Quality**: Handles missing values and data inconsistencies  
+- **Scalability**: Built on PySpark for large dataset processing
+- **Fault Tolerance**: CSV fallback if database unavailable
+- **Dimensional Modeling**: Proper star schema with surrogate keys
 
-- Svi koraci se mogu pokretati lokalno ili na Sparku u klasteru
-- CSV datoteka može biti lokalna ili pohranjena na oblaku
-- Važno je osigurati da je struktura podataka kompatibilna sa skladištem podataka
+## Configuration
 
----
+Update database connection settings in:
+- `extract/extract_mysql.py`
+- `load/run_loading.py`
+
+Default settings:
+- Host: 127.0.0.1:3306
+- User: root
+- Password: root
+- Source DB: cars
+- Target DB: cars_dw
 
