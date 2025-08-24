@@ -3,11 +3,8 @@ from extract.extract_mysql import extract_all_tables
 from extract.extract_csv import extract_from_csv
 from transform.pipeline import run_transformations
 from spark_session import get_spark_session
-from load.run_loading import write_spark_df_to_mysql
+from load.run_loading import write_all_tables_to_mysql
 import os
-
-# Unset SPARK_HOME if it exists to prevent Spark session conflicts
-os.environ.pop("SPARK_HOME", None)
 
 def main():
     spark = get_spark_session()
@@ -28,8 +25,7 @@ def main():
 
     # Load data
     print("🚀 Starting data loading")
-    for table_name, df in load_ready_dict.items():
-        write_spark_df_to_mysql(df, table_name)
+    write_all_tables_to_mysql(load_ready_dict)
     print("👏 Data loading completed")
 
 if __name__ == "__main__":

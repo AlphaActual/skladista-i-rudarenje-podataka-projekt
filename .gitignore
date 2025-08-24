@@ -2,7 +2,7 @@
 .venv/
 srp_fipu/
 skladista-podataka-old/
-myVenv/
+venv_spark/
 
 # Python
 __pycache__/

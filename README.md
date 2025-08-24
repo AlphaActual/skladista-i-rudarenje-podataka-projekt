@@ -2,4 +2,4 @@
 
 Fakultet informatike u Puli
 
-aktiviraj venv: 'source myVenv/Scripts/activate'
+aktiviraj venv: 'source venv_spark/Scripts/activate'

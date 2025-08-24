@@ -1,4 +1,5 @@
 from pyspark.sql import DataFrame
+import pymysql
 
 def write_spark_df_to_mysql(spark_df: DataFrame, table_name: str, mode: str = "overwrite"):
     """Write Spark DataFrame to MySQL data warehouse using JDBC"""
@@ -32,6 +33,51 @@ def write_spark_df_to_mysql(spark_df: DataFrame, table_name: str, mode: str = "o
         output_path = f"4_etl/output/{table_name}.csv"
         spark_df.coalesce(1).write.mode(mode).option("header", "true").csv(output_path)
         print(f"✅ Data exported to {output_path}")
+
+def drop_fact_tables_first():
+    """Drop fact tables first to avoid foreign key constraint issues"""
+    try:
+        connection = pymysql.connect(
+            host='127.0.0.1',
+            user='root',
+            password='root',
+            database='cars_dw'
+        )
+        cursor = connection.cursor()
+        
+        # Drop fact tables first to remove foreign key constraints
+        fact_tables = ['fact_car_sales']
+        for table in fact_tables:
+            cursor.execute(f"DROP TABLE IF EXISTS {table}")
+            print(f"🗑️ Dropped fact table {table} (if existed)")
+            
+        connection.commit()
+        cursor.close()
+        connection.close()
+        
+    except Exception as e:
+        print(f"Note: Could not drop fact tables: {e}")
+
+def write_all_tables_to_mysql(load_ready_dict):
+    """Write all tables to MySQL in correct order to avoid foreign key issues"""
+    
+    # First drop fact tables to remove foreign key constraints
+    drop_fact_tables_first()
+    
+    # Define loading order: dimensions first, then facts
+    dimension_tables = ['dim_manufacturer', 'dim_vehicle', 'dim_transmission', 
+                       'dim_fuel', 'dim_location', 'dim_date']
+    fact_tables = ['fact_car_sales']
+    
+    # Load dimension tables first
+    for table_name in dimension_tables:
+        if table_name in load_ready_dict:
+            write_spark_df_to_mysql(load_ready_dict[table_name], table_name)
+    
+    # Then load fact tables
+    for table_name in fact_tables:
+        if table_name in load_ready_dict:
+            write_spark_df_to_mysql(load_ready_dict[table_name], table_name)
 
 def create_dw_database():
     """Create data warehouse database if it doesn't exist"""
