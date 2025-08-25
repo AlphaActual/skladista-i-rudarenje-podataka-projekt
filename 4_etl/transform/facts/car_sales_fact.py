@@ -222,24 +222,25 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
     # print("Date join results (showing null date_tk):")
     # fact_with_date.filter(col("date_tk").isNull()).select("year").distinct().show()
     
-    # Add category classifications based on actual values
     fact_with_categories = (
         fact_with_date
         .withColumn("mileage_category", 
-                   when(col("mileage") < 10000, "Low")
+                   when(col("mileage") < 5000, "Very Low")
+                   .when(col("mileage") < 20000, "Low")
                    .when(col("mileage") < 50000, "Medium") 
                    .when(col("mileage") < 100000, "High")
-                   .otherwise("Very High"))
+                   .when(col("mileage") < 150000, "Very High")
+                   .otherwise("Extreme"))
         .withColumn("engine_size_class",
                    when(col("engine_size") < 1.5, "Small")
                    .when(col("engine_size") < 2.5, "Medium")
-                   .when(col("engine_size") < 4.0, "Large") 
-                   .otherwise("Very Large"))
+                   .otherwise("Large"))
         .withColumn("age_category",
                    when(col("age") < 3, "New")
                    .when(col("age") < 7, "Recent")
-                   .when(col("age") < 15, "Used")
-                   .otherwise("Old"))
+                   .when(col("age") < 12, "Mature")
+                   .when(col("age") < 20, "Old")
+                   .otherwise("Vintage"))
     )
     
     # Lookup mileage category dimension key
