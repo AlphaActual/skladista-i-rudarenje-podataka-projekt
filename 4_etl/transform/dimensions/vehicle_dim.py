@@ -2,57 +2,49 @@ from pyspark.sql.functions import col, lit, trim, initcap, current_timestamp, wh
 from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number
 
-def transform_vehicle_dim(model_df, manufacturer_df, mileage_category_df, engine_size_class_df, age_category_df, csv_cars_df=None):
+def transform_vehicle_dim(model_df, manufacturer_df, csv_cars_df=None):
     """
     Transform vehicle dimension with SCD Type 2 implementation
-    Includes model information with categories
+    Simplified to avoid Cartesian product - only includes model information
+    Categories will be determined dynamically in fact table based on actual values
     """
     
     # Aliases
     mod = model_df.alias("mod")
     man = manufacturer_df.alias("man")
-    mil = mileage_category_df.alias("mil")
-    eng = engine_size_class_df.alias("eng")
-    age = age_category_df.alias("age")
 
-    # Join database tables to get complete vehicle information
+    # Join database tables to get basic vehicle information (NO cross joins)
     merged_df = (
         mod.join(man, col("mod.manufacturer_id") == col("man.manufacturer_id"), "left")
-           .join(mil, lit(1) == lit(1), "cross")  # Cross join for now - will be matched in fact table
-           .join(eng, lit(1) == lit(1), "cross")  # Cross join for now - will be matched in fact table  
-           .join(age, lit(1) == lit(1), "cross")  # Cross join for now - will be matched in fact table
            .select(
                col("mod.model_id").alias("vehicle_id"),
                trim(col("mod.name")).alias("model_name"),
-               trim(col("mil.category")).alias("mileage_category"),
-               trim(col("eng.size_class")).alias("engine_size_class"),
-               trim(col("age.category")).alias("age_category")
+               trim(col("man.name")).alias("manufacturer_name")
            )
            .withColumn("model_name", initcap(trim(col("model_name"))))
-           .withColumn("mileage_category", initcap(trim(col("mileage_category"))))
-           .withColumn("engine_size_class", initcap(trim(col("engine_size_class"))))
-           .withColumn("age_category", initcap(trim(col("age_category"))))
+           .withColumn("manufacturer_name", initcap(trim(col("manufacturer_name"))))
            .dropDuplicates()
     )
 
     # If CSV data exists, extract vehicle information from it
     if csv_cars_df:
-        # Extract unique models from CSV with categories
+        # Extract unique models from CSV
         csv_vehicle_df = (
             csv_cars_df
-            .selectExpr("model as model_name")
+            .select(
+                col("manufacturer").alias("manufacturer_name"),
+                col("model").alias("model_name")
+            )
             .withColumn("model_name", initcap(trim(col("model_name"))))
+            .withColumn("manufacturer_name", initcap(trim(col("manufacturer_name"))))
             .dropDuplicates()
             .withColumn("vehicle_id", lit(None).cast("int"))
-            .withColumn("mileage_category", lit("Unknown"))
-            .withColumn("engine_size_class", lit("Unknown"))
-            .withColumn("age_category", lit("Unknown"))
         )
 
         # Union with database data
-        merged_df = merged_df.select("vehicle_id", "model_name", "mileage_category", "engine_size_class", "age_category") \
+        merged_df = merged_df.select("vehicle_id", "model_name", "manufacturer_name") \
                              .unionByName(csv_vehicle_df) \
-                             .dropDuplicates(["model_name", "mileage_category", "engine_size_class", "age_category"])
+                             .dropDuplicates(["model_name", "manufacturer_name"])
 
     # Add SCD Type 2 columns
     merged_df = merged_df.withColumn("version", lit(1)) \
@@ -61,10 +53,10 @@ def transform_vehicle_dim(model_df, manufacturer_df, mileage_category_df, engine
                          .withColumn("is_current", lit(True))
 
     # Add surrogate key using row_number
-    window = Window.orderBy("model_name", "mileage_category", "engine_size_class", "age_category")
+    window = Window.orderBy("model_name", "manufacturer_name")
     merged_df = merged_df.withColumn("vehicle_tk", row_number().over(window))
 
-    # Reorder columns according to star schema design
+    # Reorder columns according to simplified star schema design
     final_df = merged_df.select(
         "vehicle_tk",
         "version",
@@ -72,9 +64,7 @@ def transform_vehicle_dim(model_df, manufacturer_df, mileage_category_df, engine
         "date_to",
         "vehicle_id",
         "model_name",
-        "mileage_category",
-        "engine_size_class",
-        "age_category",
+        "manufacturer_name",
         "is_current"
     )
 

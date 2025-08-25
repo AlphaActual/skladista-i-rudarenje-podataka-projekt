@@ -130,7 +130,7 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
         .select(col("f.*"), col("md.manufacturer_tk"))
     )
     
-    # Lookup vehicle dimension key
+    # Lookup vehicle dimension key (now based on model_name only)
     fact_with_veh = (
         fact_with_man.alias("f")
         .join(vehicle_dim.alias("vd"),

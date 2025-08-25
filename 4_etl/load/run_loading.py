@@ -66,7 +66,8 @@ def write_all_tables_to_mysql(load_ready_dict):
     
     # Define loading order: dimensions first, then facts
     dimension_tables = ['dim_manufacturer', 'dim_vehicle', 'dim_transmission', 
-                       'dim_fuel', 'dim_location', 'dim_date']
+                       'dim_fuel', 'dim_location', 'dim_date',
+                       'dim_mileage_category', 'dim_engine_size_class', 'dim_age_category']
     fact_tables = ['fact_car_sales']
     
     # Load dimension tables first
