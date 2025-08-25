@@ -1,4 +1,4 @@
-from pyspark.sql.functions import col, lit, trim, initcap, current_timestamp, when
+from pyspark.sql.functions import col, lit, trim, initcap, current_timestamp, when, isnotnull
 from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number
 

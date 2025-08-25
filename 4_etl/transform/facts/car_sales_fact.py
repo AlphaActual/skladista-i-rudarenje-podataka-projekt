@@ -2,7 +2,8 @@ from pyspark.sql.functions import col, lit, when, isnotnull, current_timestamp
 from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number
 
-def transform_car_sales_fact(raw_data, manufacturer_dim, vehicle_dim, transmission_dim, fuel_dim, location_dim, date_dim):
+def transform_car_sales_fact(raw_data, manufacturer_dim, vehicle_dim, transmission_dim, fuel_dim, location_dim, date_dim, 
+                           mileage_category_dim, engine_size_class_dim, age_category_dim):
     """
     Transform car sales fact table with proper dimension key lookups
     This is the central fact table containing all measures and foreign keys
@@ -31,7 +32,8 @@ def transform_car_sales_fact(raw_data, manufacturer_dim, vehicle_dim, transmissi
     # Now perform dimension lookups
     fact_with_dims = perform_dimension_lookups(
         fact_df, manufacturer_dim, vehicle_dim, transmission_dim, 
-        fuel_dim, location_dim, date_dim
+        fuel_dim, location_dim, date_dim, mileage_category_dim, 
+        engine_size_class_dim, age_category_dim
     )
     
     # Add surrogate key for fact table
@@ -47,6 +49,9 @@ def transform_car_sales_fact(raw_data, manufacturer_dim, vehicle_dim, transmissi
         "transmission_tk",
         "fuel_tk",
         "location_tk",
+        "mileage_category_tk",
+        "engine_size_class_tk", 
+        "age_category_tk",
         "price",
         "mileage",
         "tax",
@@ -119,7 +124,8 @@ def prepare_fact_from_csv(csv_df):
     
     return fact_df
 
-def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmission_dim, fuel_dim, location_dim, date_dim):
+def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmission_dim, fuel_dim, location_dim, date_dim,
+                            mileage_category_dim, engine_size_class_dim, age_category_dim):
     """Perform dimension key lookups to get surrogate keys"""
     
     # Lookup manufacturer dimension key
@@ -170,14 +176,61 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
         .select(col("f.*"), col("dd.date_tk"))
     )
     
+    # Add category classifications based on actual values
+    fact_with_categories = (
+        fact_with_date
+        .withColumn("mileage_category", 
+                   when(col("mileage") < 10000, "Low")
+                   .when(col("mileage") < 50000, "Medium") 
+                   .when(col("mileage") < 100000, "High")
+                   .otherwise("Very High"))
+        .withColumn("engine_size_class",
+                   when(col("engine_size") < 1.5, "Small")
+                   .when(col("engine_size") < 2.5, "Medium")
+                   .when(col("engine_size") < 4.0, "Large") 
+                   .otherwise("Very Large"))
+        .withColumn("age_category",
+                   when(col("age") < 3, "New")
+                   .when(col("age") < 7, "Recent")
+                   .when(col("age") < 15, "Used")
+                   .otherwise("Old"))
+    )
+    
+    # Lookup mileage category dimension key
+    fact_with_mileage_cat = (
+        fact_with_categories.alias("f")
+        .join(mileage_category_dim.alias("mcd"),
+              col("f.mileage_category") == col("mcd.mileage_category"), "left")
+        .select(col("f.*"), col("mcd.mileage_category_tk"))
+    )
+    
+    # Lookup engine size class dimension key
+    fact_with_engine_cat = (
+        fact_with_mileage_cat.alias("f")
+        .join(engine_size_class_dim.alias("ecd"),
+              col("f.engine_size_class") == col("ecd.engine_size_class"), "left")
+        .select(col("f.*"), col("ecd.engine_size_class_tk"))
+    )
+    
+    # Lookup age category dimension key
+    fact_with_age_cat = (
+        fact_with_engine_cat.alias("f")
+        .join(age_category_dim.alias("acd"),
+              col("f.age_category") == col("acd.age_category"), "left")
+        .select(col("f.*"), col("acd.age_category_tk"))
+    )
+    
     # Fill null foreign keys with -1 (unknown)
-    fact_final = fact_with_date.fillna({
+    fact_final = fact_with_age_cat.fillna({
         "manufacturer_tk": -1,
         "vehicle_tk": -1,
         "transmission_tk": -1,
         "fuel_tk": -1,
         "location_tk": -1,
-        "date_tk": -1
+        "date_tk": -1,
+        "mileage_category_tk": -1,
+        "engine_size_class_tk": -1,
+        "age_category_tk": -1
     })
     
     return fact_final

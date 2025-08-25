@@ -2,21 +2,24 @@ from pyspark.sql.functions import col, lit, trim, initcap, current_timestamp
 from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number
 
-def transform_mileage_category_dim(mileage_category_df):
+from pyspark.sql.functions import col, lit, trim, initcap, current_timestamp
+from pyspark.sql.window import Window
+from pyspark.sql.functions import row_number
+
+def transform_mileage_category_dim(spark_session):
     """
-    Transform mileage category dimension
+    Transform mileage category dimension - creates static categories
     """
     
-    # Clean and prepare the dimension
-    mileage_dim = (
-        mileage_category_df
-        .select(
-            col("mileage_category_id"),
-            trim(col("category")).alias("mileage_category")
-        )
-        .withColumn("mileage_category", initcap(trim(col("mileage_category"))))
-        .dropDuplicates()
-    )
+    # Create static mileage categories
+    mileage_categories = [
+        (1, "Low"),
+        (2, "Medium"), 
+        (3, "High"),
+        (4, "Very High")
+    ]
+    
+    mileage_dim = spark_session.createDataFrame(mileage_categories, ["mileage_category_id", "mileage_category"])
     
     # Add SCD Type 2 columns
     mileage_dim = mileage_dim.withColumn("version", lit(1)) \
@@ -41,21 +44,20 @@ def transform_mileage_category_dim(mileage_category_df):
     
     return final_df
 
-def transform_engine_size_class_dim(engine_size_class_df):
+def transform_engine_size_class_dim(spark_session):
     """
-    Transform engine size class dimension
+    Transform engine size class dimension - creates static categories
     """
     
-    # Clean and prepare the dimension
-    engine_dim = (
-        engine_size_class_df
-        .select(
-            col("engine_size_class_id"),
-            trim(col("size_class")).alias("engine_size_class")
-        )
-        .withColumn("engine_size_class", initcap(trim(col("engine_size_class"))))
-        .dropDuplicates()
-    )
+    # Create static engine size categories
+    engine_size_categories = [
+        (1, "Small"),
+        (2, "Medium"),
+        (3, "Large"),
+        (4, "Very Large")
+    ]
+    
+    engine_dim = spark_session.createDataFrame(engine_size_categories, ["engine_size_class_id", "engine_size_class"])
     
     # Add SCD Type 2 columns
     engine_dim = engine_dim.withColumn("version", lit(1)) \
@@ -80,21 +82,20 @@ def transform_engine_size_class_dim(engine_size_class_df):
     
     return final_df
 
-def transform_age_category_dim(age_category_df):
+def transform_age_category_dim(spark_session):
     """
-    Transform age category dimension
+    Transform age category dimension - creates static categories
     """
     
-    # Clean and prepare the dimension
-    age_dim = (
-        age_category_df
-        .select(
-            col("age_category_id"),
-            trim(col("category")).alias("age_category")
-        )
-        .withColumn("age_category", initcap(trim(col("age_category"))))
-        .dropDuplicates()
-    )
+    # Create static age categories
+    age_categories = [
+        (1, "New"),
+        (2, "Recent"),
+        (3, "Used"),
+        (4, "Old")
+    ]
+    
+    age_dim = spark_session.createDataFrame(age_categories, ["age_category_id", "age_category"])
     
     # Add SCD Type 2 columns
     age_dim = age_dim.withColumn("version", lit(1)) \

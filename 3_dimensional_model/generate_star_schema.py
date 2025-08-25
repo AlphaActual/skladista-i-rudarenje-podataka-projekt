@@ -59,7 +59,7 @@ class DimManufacturer(Base):
 
 
 class DimVehicle(Base):
-    """Informacije o vozilima (model i kategorije) s praćenjem promjena (SCD Type 2)"""
+    """Informacije o vozilima (model) s praćenjem promjena (SCD Type 2)"""
     __tablename__ = 'dim_vehicle'
     __table_args__ = {'schema': 'cars_dw'}
 
@@ -69,9 +69,7 @@ class DimVehicle(Base):
     date_to = Column(DateTime, nullable=True)
     vehicle_id = Column(Integer, nullable=False, index=True)  # Business key
     model_name = Column(String(100), nullable=False)
-    mileage_category = Column(String(20), nullable=False)
-    engine_size_class = Column(String(20), nullable=False)
-    age_category = Column(String(20), nullable=False)
+    manufacturer_name = Column(String(100), nullable=False)
     is_current = Column(Boolean, nullable=False, default=True)
     created_date = Column(DateTime, default=datetime.now)
 
@@ -116,6 +114,51 @@ class DimLocation(Base):
     created_date = Column(DateTime, default=datetime.now)
 
 
+class DimMileageCategory(Base):
+    """Kategorije kilometraže s praćenjem promjena kroz vrijeme (SCD Type 2)"""
+    __tablename__ = 'dim_mileage_category'
+    __table_args__ = {'schema': 'cars_dw'}
+
+    mileage_category_tk = Column(BigInteger, primary_key=True, autoincrement=True)
+    version = Column(Integer, nullable=False, default=1)
+    date_from = Column(DateTime, nullable=False, default=datetime.now)
+    date_to = Column(DateTime, nullable=True)
+    mileage_category_id = Column(Integer, nullable=False, index=True)  # Business key
+    mileage_category = Column(String(20), nullable=False)
+    is_current = Column(Boolean, nullable=False, default=True)
+    created_date = Column(DateTime, default=datetime.now)
+
+
+class DimEngineSizeClass(Base):
+    """Klase veličine motora s praćenjem promjena kroz vrijeme (SCD Type 2)"""
+    __tablename__ = 'dim_engine_size_class'
+    __table_args__ = {'schema': 'cars_dw'}
+
+    engine_size_class_tk = Column(BigInteger, primary_key=True, autoincrement=True)
+    version = Column(Integer, nullable=False, default=1)
+    date_from = Column(DateTime, nullable=False, default=datetime.now)
+    date_to = Column(DateTime, nullable=True)
+    engine_size_class_id = Column(Integer, nullable=False, index=True)  # Business key
+    engine_size_class = Column(String(20), nullable=False)
+    is_current = Column(Boolean, nullable=False, default=True)
+    created_date = Column(DateTime, default=datetime.now)
+
+
+class DimAgeCategory(Base):
+    """Kategorije starosti vozila s praćenjem promjena kroz vrijeme (SCD Type 2)"""
+    __tablename__ = 'dim_age_category'
+    __table_args__ = {'schema': 'cars_dw'}
+
+    age_category_tk = Column(BigInteger, primary_key=True, autoincrement=True)
+    version = Column(Integer, nullable=False, default=1)
+    date_from = Column(DateTime, nullable=False, default=datetime.now)
+    date_to = Column(DateTime, nullable=True)
+    age_category_id = Column(Integer, nullable=False, index=True)  # Business key
+    age_category = Column(String(20), nullable=False)
+    is_current = Column(Boolean, nullable=False, default=True)
+    created_date = Column(DateTime, default=datetime.now)
+
+
 class FactCarSales(Base):
     """Glavni repozitorij svih prodajnih činjenica vezanih uz automobile na tržištu"""
     __tablename__ = 'fact_car_sales'
@@ -130,6 +173,9 @@ class FactCarSales(Base):
     transmission_tk = Column(BigInteger, ForeignKey('cars_dw.dim_transmission.transmission_tk'), nullable=False)
     fuel_tk = Column(BigInteger, ForeignKey('cars_dw.dim_fuel.fuel_tk'), nullable=False)
     location_tk = Column(BigInteger, ForeignKey('cars_dw.dim_location.location_tk'), nullable=False)
+    mileage_category_tk = Column(BigInteger, ForeignKey('cars_dw.dim_mileage_category.mileage_category_tk'), nullable=False)
+    engine_size_class_tk = Column(BigInteger, ForeignKey('cars_dw.dim_engine_size_class.engine_size_class_tk'), nullable=False)
+    age_category_tk = Column(BigInteger, ForeignKey('cars_dw.dim_age_category.age_category_tk'), nullable=False)
     
     # Measures
     price = Column(DECIMAL(10, 2), nullable=False)  # Glavna mjera
@@ -165,6 +211,9 @@ try:
     print("  - dim_transmission (SCD Type 1)")
     print("  - dim_fuel (SCD Type 2)")
     print("  - dim_location (SCD Type 1)")
+    print("  - dim_mileage_category (SCD Type 2)")
+    print("  - dim_engine_size_class (SCD Type 2)")
+    print("  - dim_age_category (SCD Type 2)")
     
     print("\n🎯 Ready for ETL process!")
     
