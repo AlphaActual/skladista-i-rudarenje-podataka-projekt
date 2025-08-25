@@ -1,4 +1,4 @@
-from pyspark.sql.functions import col, lit, when, isnotnull, current_timestamp
+from pyspark.sql.functions import col, lit, when, isnotnull, current_timestamp, trim, initcap
 from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number
 
@@ -89,10 +89,10 @@ def prepare_fact_from_database(car_df, raw_data):
             col("c.mpg"),
             col("c.engineSize").alias("engine_size"),
             col("c.age"),
-            col("man.name").alias("manufacturer_name"),
-            col("m.name").alias("model_name"),
-            col("t.type").alias("transmission_type"),
-            col("f.type").alias("fuel_type"),
+            initcap(trim(col("man.name"))).alias("manufacturer_name"),
+            initcap(trim(col("m.name"))).alias("model_name"),
+            initcap(trim(col("t.type"))).alias("transmission_type"),
+            initcap(trim(col("f.type"))).alias("fuel_type"),
             col("co.name").alias("country_name"),
             col("r.name").alias("region_name")
         )
@@ -113,10 +113,10 @@ def prepare_fact_from_csv(csv_df):
             col("engineSize").alias("engine_size"),
             when(col("year").isNotNull(), 
                  lit(2025) - col("year")).otherwise(lit(0)).alias("age"),  # Calculate age
-            col("manufacturer").alias("manufacturer_name"),
-            col("model").alias("model_name"),
-            col("transmission").alias("transmission_type"),
-            col("fuelType").alias("fuel_type"),
+            initcap(trim(col("manufacturer"))).alias("manufacturer_name"),
+            initcap(trim(col("model"))).alias("model_name"),
+            initcap(trim(col("transmission"))).alias("transmission_type"),
+            initcap(trim(col("fuelType"))).alias("fuel_type"),
             lit("Unknown").alias("country_name"),
             lit("Unknown").alias("region_name")
         )
@@ -128,6 +128,34 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
                             mileage_category_dim, engine_size_class_dim, age_category_dim):
     """Perform dimension key lookups to get surrogate keys"""
     
+    # DEBUG: Check all dimension join values
+    # print("=== DEBUGGING ALL DIMENSION JOINS ===")
+    
+    # print("Unique manufacturer names in fact table:")
+    # fact_df.select("manufacturer_name").distinct().show(10)
+    # print("Manufacturer dimension table (first 10):")
+    # manufacturer_dim.select("manufacturer_tk", "name").show(10)
+    
+    # print("Unique model names in fact table (first 10):")
+    # fact_df.select("model_name").distinct().show(10)
+    # print("Vehicle dimension table (first 10):")
+    # vehicle_dim.select("vehicle_tk", "model_name").show(10)
+    
+    # print("Unique fuel types in fact table:")
+    # fact_df.select("fuel_type").distinct().show()
+    # print("Fuel dimension table:")
+    # fuel_dim.select("fuel_tk", "type").show()
+    
+    # print("Unique countries in fact table:")
+    # fact_df.select("country_name").distinct().show()
+    # print("Location dimension table:")
+    # location_dim.select("location_tk", "country").show()
+    
+    # print("Unique years in fact table:")
+    # fact_df.select("year").distinct().orderBy("year").show()
+    # print("Date dimension table (first 10):")
+    # date_dim.select("date_tk", "year").show(10)
+    
     # Lookup manufacturer dimension key
     fact_with_man = (
         fact_df.alias("f")
@@ -135,6 +163,9 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
               col("f.manufacturer_name") == col("md.name"), "left")
         .select(col("f.*"), col("md.manufacturer_tk"))
     )
+    
+    # print("Manufacturer join results (showing null manufacturer_tk):")
+    # fact_with_man.filter(col("manufacturer_tk").isNull()).select("manufacturer_name").distinct().show()
     
     # Lookup vehicle dimension key (now based on model_name only)
     fact_with_veh = (
@@ -144,6 +175,9 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
         .select(col("f.*"), col("vd.vehicle_tk"))
     )
     
+    # print("Vehicle join results (showing null vehicle_tk):")
+    # fact_with_veh.filter(col("vehicle_tk").isNull()).select("model_name").distinct().show()
+    
     # Lookup transmission dimension key
     fact_with_trans = (
         fact_with_veh.alias("f")
@@ -151,6 +185,9 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
               col("f.transmission_type") == col("td.type"), "left")
         .select(col("f.*"), col("td.transmission_tk"))
     )
+    
+    # print("Transmission join results (showing null transmission_tk):")
+    # fact_with_trans.filter(col("transmission_tk").isNull()).select("transmission_type").distinct().show()
     
     # Lookup fuel dimension key
     fact_with_fuel = (
@@ -160,6 +197,9 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
         .select(col("f.*"), col("fd.fuel_tk"))
     )
     
+    # print("Fuel join results (showing null fuel_tk):")
+    # fact_with_fuel.filter(col("fuel_tk").isNull()).select("fuel_type").distinct().show()
+    
     # Lookup location dimension key
     fact_with_loc = (
         fact_with_fuel.alias("f")
@@ -168,6 +208,9 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
         .select(col("f.*"), col("ld.location_tk"))
     )
     
+    # print("Location join results (showing null location_tk):")
+    # fact_with_loc.filter(col("location_tk").isNull()).select("country_name").distinct().show()
+    
     # Lookup date dimension key
     fact_with_date = (
         fact_with_loc.alias("f")
@@ -175,6 +218,9 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
               col("f.year") == col("dd.year"), "left")
         .select(col("f.*"), col("dd.date_tk"))
     )
+    
+    # print("Date join results (showing null date_tk):")
+    # fact_with_date.filter(col("date_tk").isNull()).select("year").distinct().show()
     
     # Add category classifications based on actual values
     fact_with_categories = (
@@ -204,6 +250,9 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
         .select(col("f.*"), col("mcd.mileage_category_tk"))
     )
     
+    # print("Mileage category join results (showing null mileage_category_tk):")
+    # fact_with_mileage_cat.filter(col("mileage_category_tk").isNull()).select("mileage_category").distinct().show()
+    
     # Lookup engine size class dimension key
     fact_with_engine_cat = (
         fact_with_mileage_cat.alias("f")
@@ -212,6 +261,9 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
         .select(col("f.*"), col("ecd.engine_size_class_tk"))
     )
     
+    # print("Engine size class join results (showing null engine_size_class_tk):")
+    # fact_with_engine_cat.filter(col("engine_size_class_tk").isNull()).select("engine_size_class").distinct().show()
+    
     # Lookup age category dimension key
     fact_with_age_cat = (
         fact_with_engine_cat.alias("f")
@@ -219,6 +271,22 @@ def perform_dimension_lookups(fact_df, manufacturer_dim, vehicle_dim, transmissi
               col("f.age_category") == col("acd.age_category"), "left")
         .select(col("f.*"), col("acd.age_category_tk"))
     )
+    
+    # print("Age category join results (showing null age_category_tk):")
+    # fact_with_age_cat.filter(col("age_category_tk").isNull()).select("age_category").distinct().show()
+    
+    # Check final counts before fillna
+    # print("=== FINAL JOIN SUMMARY ===")
+    # print("Total records:", fact_with_age_cat.count())
+    # print("Records with null manufacturer_tk:", fact_with_age_cat.filter(col("manufacturer_tk").isNull()).count())
+    # print("Records with null vehicle_tk:", fact_with_age_cat.filter(col("vehicle_tk").isNull()).count())
+    # print("Records with null transmission_tk:", fact_with_age_cat.filter(col("transmission_tk").isNull()).count())
+    # print("Records with null fuel_tk:", fact_with_age_cat.filter(col("fuel_tk").isNull()).count())
+    # print("Records with null location_tk:", fact_with_age_cat.filter(col("location_tk").isNull()).count())
+    # print("Records with null date_tk:", fact_with_age_cat.filter(col("date_tk").isNull()).count())
+    # print("Records with null mileage_category_tk:", fact_with_age_cat.filter(col("mileage_category_tk").isNull()).count())
+    # print("Records with null engine_size_class_tk:", fact_with_age_cat.filter(col("engine_size_class_tk").isNull()).count())
+    # print("Records with null age_category_tk:", fact_with_age_cat.filter(col("age_category_tk").isNull()).count())
     
     # Fill null foreign keys with -1 (unknown)
     fact_final = fact_with_age_cat.fillna({
