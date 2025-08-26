@@ -1,4 +1,4 @@
-from pyspark.sql.functions import col, lit, when, isnotnull, current_timestamp, trim, initcap
+from pyspark.sql.functions import col, lit, when, isnotnull, current_timestamp, trim, initcap, rank
 from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number
 
@@ -9,25 +9,33 @@ def transform_car_sales_fact(raw_data, manufacturer_dim, vehicle_dim, transmissi
     This is the central fact table containing all measures and foreign keys
     """
     
-    # Get the main car data - priority to database data if available
-    if "car" in raw_data and raw_data["car"].count() > 0:
-        main_df = raw_data["car"]
-        source_type = "database"
-    else:
-        # Use CSV data as fallback
-        main_df = raw_data.get("csv_cars")
-        source_type = "csv"
+    # Prepare data from both sources and merge them
+    fact_dfs = []
     
-    if main_df is None:
+    # Process database data if available
+    if "car" in raw_data and raw_data["car"].count() > 0:
+        db_fact_df = prepare_fact_from_database(raw_data["car"], raw_data)
+        fact_dfs.append(db_fact_df)
+        print(f"Database records: {db_fact_df.count()}")
+    
+    # Process CSV data if available
+    if "csv_cars" in raw_data and raw_data["csv_cars"] is not None:
+        csv_fact_df = prepare_fact_from_csv(raw_data["csv_cars"])
+        fact_dfs.append(csv_fact_df)
+        print(f"CSV records: {csv_fact_df.count()}")
+    
+    if not fact_dfs:
         raise ValueError("No car data found in raw_data")
     
-    # Process based on source type
-    if source_type == "database":
-        # Database source - join with dimension tables for lookups
-        fact_df = prepare_fact_from_database(main_df, raw_data)
+    # Union all fact dataframes
+    if len(fact_dfs) == 1:
+        fact_df = fact_dfs[0]
     else:
-        # CSV source - prepare fact table from CSV data
-        fact_df = prepare_fact_from_csv(main_df)
+        fact_df = fact_dfs[0]
+        for df in fact_dfs[1:]:
+            fact_df = fact_df.unionByName(df, allowMissingColumns=True)
+        print(f"Total merged records: {fact_df.count()}")
+    
     
     # Now perform dimension lookups
     fact_with_dims = perform_dimension_lookups(
@@ -57,7 +65,8 @@ def transform_car_sales_fact(raw_data, manufacturer_dim, vehicle_dim, transmissi
         "tax",
         "mpg",
         "engine_size",
-        "age"
+        "age",
+        "source"
     )
     
     return final_fact
@@ -94,7 +103,8 @@ def prepare_fact_from_database(car_df, raw_data):
             initcap(trim(col("t.type"))).alias("transmission_type"),
             initcap(trim(col("f.type"))).alias("fuel_type"),
             col("co.name").alias("country_name"),
-            col("r.name").alias("region_name")
+            col("r.name").alias("region_name"),
+            lit("database").alias("source")
         )
     )
     
@@ -117,8 +127,9 @@ def prepare_fact_from_csv(csv_df):
             initcap(trim(col("model"))).alias("model_name"),
             initcap(trim(col("transmission"))).alias("transmission_type"),
             initcap(trim(col("fuelType"))).alias("fuel_type"),
-            lit("Unknown").alias("country_name"),
-            lit("Unknown").alias("region_name")
+            col("country").alias("country_name"),
+            col("region").alias("region_name"),  
+            lit("csv").alias("source")
         )
     )
     
