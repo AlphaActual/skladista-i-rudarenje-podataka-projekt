@@ -20,6 +20,25 @@
 \usepackage{url}       %za URL linkove u bibliografiji
 \usepackage{float}
 \usepackage{hyperref}  %za hiperlinkove - mora biti zadnji
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{listingsutf8}
+
+% Configure listings for Python
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{cyan},
+    commentstyle=\color{green!70!white},
+    stringstyle=\color{orange},
+    numberstyle=\tiny\color{gray!70!white},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    inputencoding=utf8,
+    extendedchars=true
+}
 
 % Konfiguracija hyperref-a za boje i stil linkova
 \hypersetup{
@@ -70,6 +89,24 @@
 \pagenumbering{arabic}
 
 \input{uvod/uvod}
+\newpage
+
+\input{projektni_zadatak/projektni_zadatak}
+\newpage
+
+\input{odabir_i_analiza_skupa_podataka/odabir_i_analiza_skupa_podataka}
+\newpage
+
+\input{relacijski_model_podataka/relacijski_model_podataka}
+\newpage
+
+\input{dimenzijski_model_podataka/dimenzijski_model_podataka}
+\newpage
+
+\input{etl_proces/etl_proces}
+\newpage
+
+\input{olap_analiza/olap_analiza}
 \newpage
 
 \input{zaključak/zaključak}

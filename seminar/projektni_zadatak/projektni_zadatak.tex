@@ -1,0 +1,28 @@
+\section{Projektni zadatak}
+\subsection{Cilj i opis projektnog zadatka}
+% TODO delete
+% \begin{lstlisting}[language=Python, caption={Pisanje Spark DataFrame-a u MySQL skladište podataka}, inputencoding=utf8]
+% def drop_fact_tables_first():
+%     """Drop fact tables first to avoid foreign key constraint issues"""
+%     try:
+%         connection = pymysql.connect(
+%             host='127.0.0.1',
+%             user='root',
+%             password='root',
+%             database='cars_dw'
+%         )
+%         cursor = connection.cursor()
+
+%         # Drop fact tables first to remove foreign key constraints
+%         fact_tables = ['fact_car_sales']
+%         for table in fact_tables:
+%             cursor.execute(f"DROP TABLE IF EXISTS {table}")
+%             print(f"Dropped fact table {table} (if existed)")
+
+%         connection.commit()
+%         cursor.close()
+%         connection.close()
+
+%     except Exception as e:
+%         print(f"Note: Could not drop fact tables: {e}")
+% \end{lstlisting}
