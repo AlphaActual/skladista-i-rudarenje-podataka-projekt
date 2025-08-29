@@ -1,28 +1,59 @@
 \section{Projektni zadatak}
+
+\subsection{Definicija problema i motivacija}
+
+Automobilska industrija je jedna od najkompleksnijih gospodarskih grana koja generira ogromne količine podataka - od osnovnih karakteristika vozila, preko cijena i tržišnih trendova, do regionalnih specifičnosti i preferencija kupaca. Organizacije koje se bave analizom automobilskog tržišta, poput autoklubova, analitičkih kuća ili samih proizvođača, suočavaju se s izazovom pretvaranja ovih velikih količina podataka u korisne poslovne uvide.
+
+Tradicionalni pristup analize podataka korištenjem jednostavnih baza podataka i osnovnih alata za izvještavanje često se pokazuje neadekvatnim za složene analitičke potrebe. Potreba za dubinskim analizama tržišnih trendova, usporednim analizama proizvođača, segmentacijom kupaca i predviđanjem buduće dinamike tržišta zahtijeva sofisticiraniji pristup \cite{Silva2021}.
+
+Upravo tu se prepoznaje potreba za razvojem naprednog sustava skladištenja i analize podataka koji će omogućiti organizacijama da iz sirovih podataka izvuku maksimalnu vrijednost te donose informirane strateške odluke.
+
 \subsection{Cilj i opis projektnog zadatka}
-% TODO delete
-% \begin{lstlisting}[language=Python, caption={Pisanje Spark DataFrame-a u MySQL skladište podataka}, inputencoding=utf8]
-% def drop_fact_tables_first():
-%     """Drop fact tables first to avoid foreign key constraint issues"""
-%     try:
-%         connection = pymysql.connect(
-%             host='127.0.0.1',
-%             user='root',
-%             password='root',
-%             database='cars_dw'
-%         )
-%         cursor = connection.cursor()
 
-%         # Drop fact tables first to remove foreign key constraints
-%         fact_tables = ['fact_car_sales']
-%         for table in fact_tables:
-%             cursor.execute(f"DROP TABLE IF EXISTS {table}")
-%             print(f"Dropped fact table {table} (if existed)")
+Glavni cilj ovog projekta je razvoj potpunog sustava za skladištenje i rudarenje podataka prilagođenog analizi automobilskog tržišta. Projekt obuhvaća kompletan tijek rada - od početnih sirovih podataka do konačnih analitičkih izvještaja koji mogu koristiti stvarnim organizacijama u njihovom poslovanju.
 
-%         connection.commit()
-%         cursor.close()
-%         connection.close()
+Konkretno, projekt ima za cilj:
 
-%     except Exception as e:
-%         print(f"Note: Could not drop fact tables: {e}")
-% \end{lstlisting}
+\begin{itemize}
+    \item \textbf{Dizajnirati i implementirati relacijski model podataka} koji odgovara strukturi realnih podataka o automobilima, uključujući sve važne entitete i njihove međusobne odnose
+    \item \textbf{Razviti dimenzijski model (star schema)} optimiziran za OLAP analize, koji omogućuje efikasno izvršavanje složenih analitičkih upita
+    \item \textbf{Implementirati ETL proces} koji transformira podatke iz relacijske strukture u dimenzijski model koristeći suvremene tehnologije poput Apache Spark-a
+    \item \textbf{Kreirati sustav za OLAP analize} koji demonstrira praktičnu primjenu različitih analitičkih operacija (slice, dice, drill-down, roll-up, pivot)
+    \item \textbf{Pokazati poslovnu vrijednost} kroz konkretne scenarije korištenja koji ilustriraju kako ovakav sustav može koristiti organizacijama u donošenju poslovnih odluka
+\end{itemize}
+
+\subsection{Opseg i ograničenja projekta}
+
+Projekt se fokusira na analizu podataka o automobilima prodavanima na fiktivnom tržištu, koristeći skup od preko 97.000 zapisa koji obuhvaća vozila različitih proizvođača, modela i karakteristika. Ovaj skup podataka pruža reprezentativan uzorak koji omogućuje demonstraciju svih ključnih koncepata skladišta podataka.
+
+Vremenski okvir podataka pokriva razdoblje od 1970. do 2024. godine, s naglaskom na zadnja dva desetljeća, što omogućuje analizu dugoročnih trendova i promjena na tržištu. Podaci uključuju ključne atribute poput cijene, godine proizvodnje, kilometraže, vrste goriva, veličine motora i drugih karakteristika relevantnih za tržišnu analizu.
+
+Projekt se ograničava na demonstraciju tehničkih mogućnosti i metodologija, a ne pretendira na potpunu komercijalnu implementaciju. Fokus je na edukacijskim aspektima i ilustraciji najboljih praksi u razvoju sustava za skladištenje podataka.
+
+\subsection{Očekivani rezultati i doprinosi}
+
+Na završetku projekta očekuje se sljedeće:
+
+\begin{enumerate}
+    \item \textbf{Funkcionalno skladište podataka} s implementiranim relacijskim i dimenzijskim modelom podataka
+    \item \textbf{Potpuno funkcionalan ETL proces} koji automatizira transformaciju podataka između različitih modela
+    \item \textbf{Demonstracija OLAP mogućnosti} kroz konkretne analitičke scenarije i upite
+    \item \textbf{Dokumentacija procesa} koja može služiti kao vodič za buduće slične projekte
+    \item \textbf{Praktični uvidi u tržište automobila} koji ilustriraju poslovnu vrijednost analitičkih sustava
+\end{enumerate}
+
+Ovaj projekt predstavlja praktičnu demonstraciju kako teorijski koncepti skladišta podataka i business intelligence mogu biti primijenjeni u realnom kontekstu, pružajući studentima i praktičarima vrijedan uvid u izazove i mogućnosti moderne analize podataka \cite{Garani2019}.
+
+\subsection{Metodologija rada}
+
+Projekt slijedi strukturiran pristup razvoja sustava za skladištenje podataka, koji se može podijeliti u pet glavnih faza:
+
+\begin{enumerate}
+    \item \textbf{Eksploratorna analiza podataka} - detaljno istraživanje početnog skupa podataka radi razumijevanja strukture, kvalitete i potencijalnih izazova
+    \item \textbf{Dizajn relacijskog modela} - stvaranje normalizirane strukture podataka koja odražava realne poslovne entitete i njihove odnose
+    \item \textbf{Implementacija dimenzijskog modela} - razvoj star schema arhitekture optimizirane za analitičke potrebe
+    \item \textbf{ETL proces} - implementacija sustava za ekstraktiranje, transformaciju i učitavanje podataka koristeći Apache Spark
+    \item \textbf{OLAP analize} - demonstracija analitičkih mogućnosti kroz praktične scenarije kreiranja grafova i tablica u programu Tableau
+\end{enumerate}
+
+Svaka faza dokumentirana je s objašnjenjima projektnih odluka, tehničkih izazova i načina njihova rješavanja, čineći projekt korisnim resursom za razumijevanje praktičnih aspekata razvoja sustava za skladištenje podataka.
