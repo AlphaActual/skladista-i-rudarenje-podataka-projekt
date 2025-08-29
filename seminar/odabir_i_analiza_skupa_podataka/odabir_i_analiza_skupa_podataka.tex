@@ -1,5 +1,232 @@
 \section{Odabir i analiza skupa podataka}
 
-\subsection{Izvor podataka}
-\subsection{Analiza podataka}
-\subsection{Priprema podataka}
+\subsection{Izvor i kriteriji odabira podataka}
+
+Za potrebe ovog projekta odabran je javno dostupan skup podataka s Kaggle platforme pod nazivom "90,000+ Cars Data From 1970 to 2024" \cite{KaggleDataset2024}. Ovaj dataset sadrži informacije o preko 97.000 automobila u razdoblju od 1970. do 2024. godine, što ga čini izvrsnim kandidatom za demonstraciju koncepata skladišta podataka i analitičkih sustava.
+
+Kriteriji koji su vodili odabir ovog specifičnog skupa podataka uključuju:
+
+\begin{itemize}
+    \item \textbf{Veličina i kompleksnost} - Dataset s preko 97.000 zapisa omogućuje demonstraciju tehnika rukovanja velikim količinama podataka karakterističnih za stvarne poslovne scenarije
+    \item \textbf{Bogatstvo atributa} - Podatak sadrži 10 različitih atributa koji pokrivaju ključne aspekte automobilskog tržišta: model, godinu proizvodnje, cijenu, vrstu mjenjača, kilometražu, tip goriva, porez, potrošnju, veličinu motora i proizvođača
+    \item \textbf{Vremenski raspon} - Podaci se protežu kroz razdoblje od više desetljeća, što omogućuje analizu dugoročnih trendova i temporalnih promjena na tržištu
+    \item \textbf{Praktična relevantnost} - Automobilska industrija predstavlja kompleksan sektor s jasnima hijerarhijama (proizvođač → model) i različitim kategorijama koje se prirodno mapiraju na dimenzijske modele podataka
+    \item \textbf{Dostupnost i licenca} - Dataset je javno dostupan pod MIT licencom, što omogućuje slobodno korištenje u edukacijske svrhe
+\end{itemize}
+
+Odabrani dataset pruža solidan temelj za ilustraciju ključnih koncepata poslovne inteligencije i skladišta podataka, uključujući normalizaciju, denormalizaciju, ETL procese i OLAP analize.
+
+\subsection{Eksploratorna analiza podataka}
+
+Prije bilo kakve obrade ili transformacije podataka, provedena je detaljna eksploratorna analiza podataka (EDA) \cite{Komorowski2016}. Ovaj korak je kritičan jer omogućuje razumijevanje strukture, kvalitete i karakteristika skupa podataka, što je neophodno za donošenje informiranih odluka o daljnjem pristupu \cite{Ekbote2023}.
+
+\subsubsection{Osnovna struktura podataka}
+
+Početni dataset sadrži sljedeće atribute:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Atribut} & \textbf{Tip podatka} & \textbf{Opis}                                 \\
+        \hline
+        model            & string               & Model automobila                              \\
+        year             & integer              & Godina proizvodnje                            \\
+        price            & integer              & Cijena u britanskim funtama                   \\
+        transmission     & string               & Tip mjenjača (Manual, Automatic, Semi-Auto)   \\
+        mileage          & integer              & Kilometraža vozila                            \\
+        fuelType         & string               & Tip goriva (Petrol, Diesel, Hybrid, Electric) \\
+        tax              & integer              & Godišnji porez                                \\
+        mpg              & float                & Milje po galonu (potrošnja)                   \\
+        engineSize       & float                & Veličina motora u litrima                     \\
+        Manufacturer     & string               & Proizvođač automobila                         \\
+        \hline
+    \end{tabular}
+    \caption{Struktura originalnog skupa podataka}
+\end{table}
+
+Analiza je provedena koristeći Python biblioteke pandas i numpy, kako je prikazano u sljedećem kodu:
+
+\begin{lstlisting}[language=Python, caption={Segment skripte za analizu - osnovni pregled strukture podataka}]
+import pandas as pd
+
+# Ucitavanje podataka iz CSV datoteke
+PATH = "../data/cars_data_original.csv"
+data = pd.read_csv(PATH, delimiter=',')
+
+# Ispis osnovnih informacija o skupu podataka
+print("Dimenzije skupa podataka:", data.shape)
+print("Tipovi podataka:")
+print(data.dtypes)
+print("Nedostaju vrijednosti:")
+print(data.isna().sum())
+print("Broj jedinstvenih vrijednosti po stupcima:")
+print(data.nunique())
+...
+\end{lstlisting}
+
+\subsubsection{Ključni uvidi iz eksploratorne analize}
+
+Analiza je otkrila nekoliko važnih karakteristika skupa podataka:
+
+\begin{enumerate}
+    \item \textbf{Kvaliteta podataka} - Dataset ne sadrži nedostajuće vrijednosti (null values), što značajno pojednostavljuje faze čišćenja i pripreme podataka
+
+    \item \textbf{Problematične vrijednosti} - Identificirano je 268 automobila s veličinom motora od 0.0 litara, što upućuje na greške u podacima ili specifične kategorije vozila (električni automobili) koje zahtijevaju posebnu obradu
+
+    \item \textbf{Distribucija proizvođača} - Analiza je pokazala prisutnost 9 glavnih proizvođača: Ford, Volkswagen, BMW, Skoda, Toyota, Mercedes-Benz (označen kao "merc"), Vauxhall, Audi i Hyundai (označen kao "hyundi")
+
+    \item \textbf{Vremenski raspon} - Podaci pokrivaju godine od 1970. do 2024., s najvećom koncentracijom vozila iz 2010-ih godina
+
+    \item \textbf{Cijenski raspon} - Cijene se kreću od nekoliko stotina do preko 100.000 funti, što reflektira širokospan spektar od budget do luksuznih vozila
+\end{enumerate}
+
+\subsection{Priprema i obrada podataka}
+
+Na temelju uvida dobivenih iz eksploratorne analize, implementiran je proces pripreme podataka koji obuhvaća čišćenje, standardizaciju i proširenje originalnog skupa podataka. Ovaj proces je ključan za stvaranje kvalitetne osnove za kasnije faze razvoja skladišta podataka \cite{Wu2009}.
+
+\subsubsection{Čišćenje i standardizacija podataka}
+
+Prvi korak u pripremi podataka bio je proces čišćenja i standardizacije, implementiran u sljedećem kodu:
+
+\begin{lstlisting}[language=Python, caption={Čišćenje i standardizacija podataka}]
+import pandas as pd
+
+# Ucitavanje originalnog skupa podataka
+df = pd.read_csv("data/cars_data_original.csv", delimiter=',')
+
+# Uklanjanje whitespace znakova iz naziva stupaca i podataka
+df.columns = df.columns.str.strip()
+df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+
+# Pretvaranje cijena i kilometraze u numericke tipove
+df['price'] = pd.to_numeric(df['price'])
+df['mileage'] = pd.to_numeric(df['mileage'])
+
+# Standardizacija naziva proizvodjaca
+df = df.rename(columns={'Manufacturer': 'manufacturer'})
+df['manufacturer'] = df['manufacturer'].str.lower()
+df['manufacturer'] = df['manufacturer'].replace({
+    'bmw': 'BMW',
+    'merc': 'Mercedes-Benz', 
+    'volkswagen': 'Volkswagen',
+    'toyota': 'Toyota',
+    'hyundi': 'Hyundai',
+    'vauxhall': 'Vauxhall',
+    'audi': 'Audi',
+    'skoda': 'Skoda',
+    'ford': 'Ford'
+})
+
+# Uklanjanje redaka s nedostajucim vrijednostima
+df = df.dropna()
+\end{lstlisting}
+
+\subsubsection{Proširenje skupa podataka hijerarhijskim atributima}
+
+Jedan od ključnih koraka u pripremi podataka za skladište bilo je proširenje originalnog skupa s dodatnim atributima koji omogućuju stvaranje bogatijih hijerarhija i boljih analitičkih mogućnosti. Ovaj proces je implementiran kroz dodavanje sljedećih dimenzija:
+
+\begin{lstlisting}[language=Python, caption={Prosirenje skupa podataka novim dimenzijama}]
+# Dodavanje desetljeca na temelju godine proizvodnje
+df['decade'] = (df['year'] // 10 * 10).astype(str) + 's'
+
+# Mapiranje proizvodjaca na zemlje i regije
+manufacturer_mapping = {
+    'Hyundai': {'country': 'South Korea', 'region': 'Asia'},
+    'Volkswagen': {'country': 'Germany', 'region': 'Europe'},
+    'BMW': {'country': 'Germany', 'region': 'Europe'},
+    'Skoda': {'country': 'Czech Republic', 'region': 'Europe'},
+    'Ford': {'country': 'United States', 'region': 'North America'},
+    'Toyota': {'country': 'Japan', 'region': 'Asia'},
+    'Mercedes-Benz': {'country': 'Germany', 'region': 'Europe'},
+    'Vauxhall': {'country': 'United Kingdom', 'region': 'Europe'},
+    'Audi': {'country': 'Germany', 'region': 'Europe'}
+}
+
+# Dodavanje geografskih dimenzija
+df['country'] = df['manufacturer'].map(
+    lambda mfr: manufacturer_mapping.get(mfr, {}).get('country', 'Unknown'))
+df['region'] = df['manufacturer'].map(
+    lambda mfr: manufacturer_mapping.get(mfr, {}).get('region', 'Unknown'))
+
+# Kategorizacija kilometraze
+mileage_ranges = [
+    (0, 5000, 'Very Low'),
+    (5000, 20000, 'Low'), 
+    (20000, 50000, 'Medium'),
+    (50000, 100000, 'High'),
+    (100000, 150000, 'Very High'),
+    (150000, float('inf'), 'Extreme')
+]
+
+df['mileageCategory'] = 'Unknown'
+for low, high, category in mileage_ranges:
+    mask = (df['mileage'] >= low) & (df['mileage'] < high)
+    df.loc[mask, 'mileageCategory'] = category
+
+# Klasifikacija velicine motora
+engine_size_classes = [
+    (0.1, 1.5, 'Small'),
+    (1.5, 2.5, 'Medium'),
+    (2.5, float('inf'), 'Large')
+]
+
+df['engineSizeClass'] = 'Unknown'
+for low, high, category in engine_size_classes:
+    mask = (df['engineSize'] >= low) & (df['engineSize'] < high)
+    df.loc[mask, 'engineSizeClass'] = category
+
+# Dodavanje starosti vozila i kategorizacije
+current_year = 2025
+df['age'] = current_year - df['year']
+
+age_categories = [
+    (0, 3, 'New'),
+    (3, 7, 'Recent'),
+    (7, 12, 'Mature'),
+    (12, 20, 'Old'),
+    (20, float('inf'), 'Vintage')
+]
+
+df['ageCategory'] = 'Unknown'
+for low, high, category in age_categories:
+    mask = (df['age'] >= low) & (df['age'] < high)
+    df.loc[mask, 'ageCategory'] = category
+\end{lstlisting}
+
+\subsubsection{Podjela skupa podataka za simulaciju različitih izvora}
+
+Za potrebe demonstracije ETL procesa koji može rukovati podacima iz različitih izvora, prošireni skup podataka podijeljen je na dva dijela u omjeru 80:20. Ovaj pristup omogućuje simulaciju realnog scenarija gdje skladište podataka prima informacije iz više nezavisnih sustava.
+
+\begin{lstlisting}[language=Python, caption={Podjela skupa podataka na dva dijela}, inputencoding=utf8]
+import pandas as pd
+
+# Ucitavanje prosirenog skupa podataka
+df = pd.read_csv("processed/cars_data_EXPANDED.csv", delimiter=',')
+
+# Nasumicna podjela u omjeru 80:20
+df20 = df.sample(frac=0.2, random_state=1)
+df80 = df.drop(df20.index)
+
+print(Velicina 80% skupa:", df80.shape)
+print("Velicina 20% skupa:", df20.shape)
+
+# Spremanje u zasebne datoteke
+df80.to_csv("processed/cars_data_80.csv", index=False)
+df20.to_csv("processed/cars_data_20.csv", index=False)
+\end{lstlisting}
+
+\subsection{Rezultati pripreme podataka}
+
+Na završetku procesa pripreme podataka, od originalnog skupa s 10 atributa stvaren je prošireni dataset s 16 atributa koji uključuje:
+
+\begin{itemize}
+    \item \textbf{Originalne atribute} - svih 10 osnovnih karakteristika vozila
+    \item \textbf{Temporalne dimenzije} - decade, age, ageCategory
+    \item \textbf{Geografske dimenzije} - country, region
+    \item \textbf{Kategorizirane atribute} - mileageCategory, engineSizeClass
+\end{itemize}
+
+Ovakav pristup pripreme podataka osigurava da konačni skup sadrži sve potrebne elemente za stvaranje bogatog dimenzijskog modela koji može podržati kompleksne OLAP analize. Dodatne hijerarhije omogućuje implementaciju naprednih analitičkih scenarija poput drill-down operacija od regije prema specifičnim modelima automobila, ili roll-up agregacija od individualnih vozila prema tržišnim segmentima.
+
+Pripravljeni podaci predstavljaju čvrstu osnovu za sljedeću fazu projekta - dizajn i implementaciju relacijskog modela podataka koji će služiti kao izvor za ETL proces prema dimenzijskom skladištu podataka.
