@@ -1,5 +1,179 @@
 \section{Dimenzijski model podataka}
 
-\subsection{Izrada star scheme}
-\subsection{Kreiranje dimenzijskih tablica}
-\subsection{Kreiranje tablice činjenica}
+Nakon implementacije normaliziranog relacijskog modela, sljedeći korak u razvoju skladišta podataka predstavlja kreiranje dimenzijskog modela optimiziranog za analitičke upite i izvještavanje. Dimenzijski model, poznat i kao "star schema", omogućuje brže izvršavanje složenih analitičkih upita kroz denormalizirane strukture podataka \cite{Kimball2013}.
+
+\subsection{Konceptualni pristup dimenzijskom modeliranju}
+
+Dimenzijski model predstavlja fundamentalno drugačiji pristup od tradicionalnog relacijskog modela. Umjesto fokusa na normalnu formu i eliminaciju redundancije, dimenzijski model optimizira strukturu za analitičke performance i razumljivost krajnjih korisnika \cite{Inmon2005}.
+
+Ključne karakteristike dimenzijskog pristupa uključuju:
+
+\textbf{Denormalizacija za performanse:}
+\begin{itemize}
+    \item Spojene tablice u široke dimenzije za smanjenje JOIN operacija
+    \item Redundantni podaci prihvaćeni radi brzine upita
+    \item Optimizacija za čitanje, a ne za pisanje podataka
+\end{itemize}
+
+\textbf{Intuitivnost za analitičare:}
+\begin{itemize}
+    \item Jasno razlikovanje između činjenica (mjera) i dimenzija (kontekst)
+    \item Prirodno mapiranje na poslovne procese i izvještaje
+    \item Jednostavnost za ad-hoc analize i OLAP operacije
+\end{itemize}
+
+\textbf{Upravljanje promjenama kroz vrijeme:}
+\begin{itemize}
+    \item Implementacija Slowly Changing Dimensions (SCD) strategija
+    \item Održavanje povijesnih podataka za trendove analize
+    \item Fleksibilnost u dodavanju novih dimenzija i mjera
+\end{itemize}
+
+\subsection{Arhitektura zvjezdastog modela}
+
+Za potrebe analize automobilskog tržišta dizajnirana je star schema koja omogućuje dubinsku analizu prodajnih trendova, cijena i karakteristika vozila kroz različite dimenzije.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{slike/dimensional_model/star_schema.png}
+    \caption{Star schema dimenzijskog modela za analizu automobilskog tržišta}
+    \label{fig:star-schema}
+\end{figure}
+
+Model se sastoji od:
+\begin{itemize}
+    \item \textbf{1 tablica činjenica} (Fact\_Car\_Sales) - centralna tablica s mjerama
+    \item \textbf{9 dimenzijskih tablica} - kontekstualne informacije za analizu
+    \item \textbf{Surrogate ključevi} - tehničke veze između tablica
+    \item \textbf{SCD implementacija} - upravljanje promjenama kroz vrijeme
+\end{itemize}
+
+\subsection{Tablica činjenica - Fact\_Car\_Sales}
+
+Središnja tablica činjenica predstavlja glavni repozitorij svih prodajnih činjenica vezanih uz automobile na tržištu. Tablica je optimizirana za agregacijske operacije i analitičke upite.
+
+\begin{lstlisting}[language=Python, caption={Definiranje tablice činjenica u SQLAlchemy ORM-u}]
+class FactCarSales(Base):
+    __tablename__ = 'fact_car_sales'
+    
+    car_sales_tk = Column(BigInteger, primary_key=True, autoincrement=True)
+    
+    # Strani kljucevi prema dimenzijama
+    date_tk = Column(Integer, ForeignKey('dim_date.date_tk'))
+    manufacturer_tk = Column(BigInteger, ForeignKey('dim_manufacturer.manufacturer_tk'))
+    vehicle_tk = Column(BigInteger, ForeignKey('dim_vehicle.vehicle_tk'))
+    transmission_tk = Column(BigInteger, ForeignKey('dim_transmission.transmission_tk'))
+    fuel_tk = Column(BigInteger, ForeignKey('dim_fuel.fuel_tk'))
+    
+    # Mjere za analizu
+    price = Column(DECIMAL(10, 2), nullable=False)  # Glavna mjera
+    mileage = Column(Integer, nullable=False)
+    tax = Column(Integer, nullable=False)
+    mpg = Column(DECIMAL(5, 2), nullable=False)
+    engine_size = Column(DECIMAL(3, 1), nullable=False)
+    age = Column(Integer, nullable=False)
+\end{lstlisting}
+
+Tablica sadrži sljedeće tipove atributa:
+\begin{itemize}
+    \item \textbf{Surrogate ključ} - tehnički identifikator zapisa (car\_sales\_tk)
+    \item \textbf{Strani ključevi} - veze s dimenzijskim tablicama
+    \item \textbf{Mjere} - kvantitativni podaci za agregaciju i analizu
+    \item \textbf{Audit polja} - praćenje kreiranja i ažuriranja podataka
+\end{itemize}
+
+\subsection{Dimenzijske tablice i SCD strategije}
+
+Dimenzijske tablice pružaju kontekstualne informacije potrebne za interpretaciju činjenica. Ovisno o prirodi podataka, implementirane su različite SCD (Slowly Changing Dimensions) strategije.
+
+\textbf{SCD Type 0 - Statični podaci (Dim\_Date):}
+\begin{itemize}
+    \item Podaci se nikad ne mijenjaju
+    \item Jednostavna struktura bez povijesnih zapisa
+    \item Koristi se za vremensku dimenziju
+\end{itemize}
+
+\textbf{SCD Type 1 - Prepisivanje (Dim\_Transmission, Dim\_Location):}
+\begin{itemize}
+    \item Nova vrijednost zamjenjuje staru
+    \item Nema čuvanja povijesti promjena
+    \item Koristi se za podatke gdje povijest nije kritična
+\end{itemize}
+
+\begin{lstlisting}[language=Python, caption={SCD Type 1 implementacija za tip mjenjača}]
+class DimTransmission(Base):
+    __tablename__ = 'dim_transmission'
+    
+    transmission_tk = Column(BigInteger, primary_key=True, autoincrement=True)
+    transmission_id = Column(Integer, nullable=False, index=True)  # Business key
+    type = Column(String(20), nullable=False)
+    last_updated = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+    created_date = Column(DateTime, default=datetime.now)
+\end{lstlisting}
+
+\textbf{SCD Type 2 - Dodavanje novih zapisa (Dim\_Manufacturer, Dim\_Vehicle, ostali):}
+\begin{itemize}
+    \item Čuva se potpuna povijest promjena
+    \item Svaka promjena kreira novi zapis
+    \item Omogućuje analizu trendova kroz vrijeme
+\end{itemize}
+
+\begin{lstlisting}[language=Python, caption={SCD Type 2 implementacija za proizvođače}]
+class DimManufacturer(Base):
+    __tablename__ = 'dim_manufacturer'
+    
+    manufacturer_tk = Column(BigInteger, primary_key=True, autoincrement=True)
+    version = Column(Integer, nullable=False, default=1)
+    date_from = Column(DateTime, nullable=False, default=datetime.now)
+    date_to = Column(DateTime, nullable=True)
+    manufacturer_id = Column(Integer, nullable=False, index=True)  # Business key
+    name = Column(String(100), nullable=False)
+    country = Column(String(50), nullable=False)
+    region = Column(String(50), nullable=False)
+    is_current = Column(Boolean, nullable=False, default=True)
+\end{lstlisting}
+
+\subsection{Prednosti zvjezdastog modela}
+
+Implementacija star schema modela donosi značajne prednosti za analitičke procese:
+
+\textbf{Performanse upita:}
+\begin{itemize}
+    \item Smanjenje složenosti JOIN operacija
+    \item Optimizacija za agregacijske funkcije
+    \item Predictable execution planovi za OLAP upite
+\end{itemize}
+
+\textbf{Skalabilnost:}
+\begin{itemize}
+    \item Linearan rast s volumenom podataka
+    \item Mogućnost horizontalnog particioniranja
+    \item Kompatibilnost s distribuiranim analitičkim sustavima
+\end{itemize}
+
+\textbf{Jednostavnost korištenja:}
+\begin{itemize}
+    \item Intuitivna struktura za poslovne analitičare
+    \item Izravno mapiranje na OLAP kocke
+    \item Kompatibilnost s BI alatima (Tableau, Power BI, itd.)
+\end{itemize}
+
+\subsection{Implementacijski detalji}
+
+Kreiranje dimenzijskog modela automatizirano je kroz Python skriptu koja osigurava konzistentnost strukture i referencijalnih veza.
+
+\begin{lstlisting}[language=Python, caption={Kreiranje star schema strukture}]
+# Kreiranje baze podataka za data warehouse
+temp_engine = create_engine('mysql+pymysql://root:root@localhost', echo=False)
+with temp_engine.connect() as conn:
+    conn.execute(text("CREATE DATABASE IF NOT EXISTS cars_dw CHARACTER SET utf8mb4"))
+    conn.commit()
+
+# Kreiranje svih tablica u dimenzijskom modelu
+Base.metadata.drop_all(engine)  # Uklanjanje postojecih tablica
+Base.metadata.create_all(engine)  # Kreiranje novih tablica
+
+print("Star Schema tables created successfully!")
+\end{lstlisting}
+
+Model je spreman za ETL proces koji će popuniti dimenzije i tablicu činjenica podacima iz relacijske baze, pri čemu će se implementirati potrebne SCD strategije za upravljanje promjenama kroz vrijeme.

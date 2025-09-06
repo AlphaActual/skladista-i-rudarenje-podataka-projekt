@@ -1,5 +1,306 @@
 \section{ETL proces}
 
-\subsection{Izvlačenje podataka}
-\subsection{Transformacija podataka}
-\subsection{Popunjavanje skladišta podataka}
+ETL (Extract, Transform, Load) proces predstavlja srce svakog skladišta podataka, omogućujući transformaciju heterogenih izvornih podataka u konzistentan, analitički optimiziran format. Za potrebe ovog projekta implementiran je sveobuhvatan ETL pipeline koji kombinira podatke iz relacijske baze i CSV datoteka, transformira ih u dimenzijski model i učitava u skladište podataka.
+
+\subsection{Arhitektura ETL pipelinea}
+
+ETL proces projektiran je prema modernim načelima scalable data processing korištenjem Apache Spark okruženja koje omogućuje distribuirano procesiranje velikih količina podataka \cite{Zaharia2016}.
+
+Ključne komponente arhitekture uključuju:
+
+\textbf{Tehnološki stack:}
+\begin{itemize}
+    \item \textbf{Apache Spark} - distribuirano procesiranje podataka
+    \item \textbf{PySpark} - Python API za Spark s DataFrame optimizacijama
+    \item \textbf{JDBC konektor} - povezivanje s MySQL bazama podataka
+    \item \textbf{SQLAlchemy ORM} - objektno-relacionalno mapiranje za schema management
+\end{itemize}
+
+\textbf{Modularni dizajn:}
+\begin{itemize}
+    \item Razdvojene Extract, Transform i Load faze
+    \item Nezavisan kod za svaku dimenziju i tablicu činjenica
+    \item Mogućnost pokretanja pojedinačnih komponenti za testiranje
+    \item Centralizirano upravljanje Spark sesijama
+\end{itemize}
+
+\begin{lstlisting}[language=Python, caption={Inicijalizacija Spark okruženja za ETL pipeline}]
+def get_spark_session(app_name="ETL_App"):
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    mysql_jar_path = os.path.join(project_root, "Connectors", "mysql-connector-j-9.2.0.jar")
+    
+    return SparkSession.builder \
+        .appName(app_name) \
+        .config("spark.jars", mysql_jar_path) \
+        .config("spark.driver.host", "127.0.0.1") \
+        .config("spark.sql.adaptive.enabled", "false") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .getOrCreate()
+\end{lstlisting}
+
+\subsection{Extract faza - izvlačenje podataka}
+
+Extract faza odgovorna je za dohvaćanje podataka iz heterogenih izvora i njihovo ujedinjavanje u Spark DataFrame strukture pogodne za daljnju obradu.
+
+\textbf{Izvlačenje iz MySQL baze podataka:}
+
+Implementiran je generički sustav za dohvaćanje svih tablica iz relacijske baze koristeći JDBC konektor koji omogućuje optimiziranu komunikaciju između Spark-a i MySQL-a.
+
+\begin{lstlisting}[language=Python, caption={Izvlačenje podataka iz MySQL relacijske baze}]
+def extract_table(table_name, database="cars"):
+    spark = get_spark_session("ETL_Extract_MySQL")
+    
+    jdbc_url = f"jdbc:mysql://127.0.0.1:3306/{database}?useSSL=false&allowPublicKeyRetrieval=true"
+    connection_properties = {
+        "user": "root",
+        "password": "root",
+        "driver": "com.mysql.cj.jdbc.Driver"
+    }
+    
+    try:
+        df = spark.read.jdbc(url=jdbc_url, table=table_name, properties=connection_properties)
+        return df
+    except Exception as e:
+        print(f"Error extracting table {table_name}: {e}")
+        return spark.createDataFrame([], "struct<id:int>")
+\end{lstlisting}
+
+\textbf{Izvlačenje iz CSV datoteka:}
+
+Za fleksibilnost i potporu dodatnim izvorima podataka, implementirana je mogućnost učitavanja podataka iz CSV datoteka koje mogu sadržavati nove zapise ili dopunske informacije.
+
+\begin{lstlisting}[language=Python, caption={Izvlačenje podataka iz CSV datoteka}]
+def extract_from_csv(file_path):
+    spark = get_spark_session("ETL Extract - CSV")
+    df = spark.read.option("header", True).option("inferSchema", True).csv(file_path)
+    return df
+\end{lstlisting}
+
+
+\subsection{Transform faza - transformacija podataka}
+
+Transform faza predstavlja najkompleksniji dio ETL procesa gdje se izvlačeni podaci transformiraju u dimenzijski model optimiziran za analitičke operacije.
+
+\subsubsection{Transformacija dimenzijskih tablica}
+
+Svaka dimenzijska tablica implementira odgovarajuću SCD strategiju prema prirodi podataka i poslovnim zahtjevima:
+
+\textbf{SCD Type 0 - Statična vremenska dimenzija:}
+\begin{lstlisting}[language=Python, caption={Transformacija vremenske dimenzije}]
+def transform_date_dim(car_df, csv_cars_df=None):
+    # Izvlacenje jedinstvenih godina iz baze
+    mysql_df = (
+        car_df
+        .select(col("year"))
+        .dropDuplicates()
+        .withColumn("decade", concat(((col("year").cast("int") / 10).cast("int") * 10).cast("string"), lit("s")))
+        .select("year", "decade")
+    )
+    
+    # Dodavanje surrogate kljuca
+    final_df = mysql_df.withColumn("date_tk", col("year"))
+    return final_df
+\end{lstlisting}
+
+\textbf{SCD Type 1 - Prepisivanje za jednostavne entitete:}
+
+Koristi se za podatke poput tipova mjenjača gdje povijest promjena nije kritična.
+
+\begin{lstlisting}[language=Python, caption={SCD Type 1 implementacija za tip mjenjača}]
+def transform_transmission_dim(transmission_type_df, csv_cars_df=None):
+    merged_df = (
+        transmission_type_df
+        .select(
+            col("transmission_id"),
+            trim(col("type")).alias("type")
+        )
+        .withColumn("type", initcap(trim(col("type"))))
+        .dropDuplicates()
+    )
+    
+    # Dodavanje audit polja
+    merged_df = merged_df.withColumn("last_updated", current_timestamp())
+    
+    # Surrogate key
+    window = Window.orderBy("type")
+    merged_df = merged_df.withColumn("transmission_tk", row_number().over(window))
+    
+    return merged_df
+\end{lstlisting}
+
+\textbf{SCD Type 2 - Praćenje povijesti za ključne entitete:}
+
+Implementiran je za proizvođače, vozila i tipove goriva gdje je održavanje povijesti promjena kritično za analize trendova.
+
+\begin{lstlisting}[language=Python, caption={SCD Type 2 implementacija za proizvođače}]
+def transform_manufacturer_dim(manufacturer_df, country_df, region_df, csv_cars_df=None):
+    # Spajanje s geografskim informacijama
+    merged_df = (
+        manufacturer_df.alias("m")
+        .join(country_df.alias("c"), col("m.country_id") == col("c.country_id"), "left")
+        .join(region_df.alias("r"), col("c.region_id") == col("r.region_id"), "left")
+        .select(
+            col("m.manufacturer_id").alias("manufacturer_id"),
+            trim(col("m.name")).alias("name"),
+            trim(col("c.name")).alias("country"),
+            trim(col("r.name")).alias("region")
+        )
+    )
+    
+    # SCD Type 2 polja
+    merged_df = merged_df.withColumn("version", lit(1)) \
+                         .withColumn("date_from", current_timestamp()) \
+                         .withColumn("date_to", lit(None).cast("timestamp")) \
+                         .withColumn("is_current", lit(True))
+    
+    return merged_df
+\end{lstlisting}
+
+\subsubsection{Transformacija tablice činjenica}
+
+Tablica činjenica predstavlja najveći izazov zbog potrebe za spajanjem podataka iz svih dimenzija i osiguravanjem referencijalnih veza.
+
+\begin{lstlisting}[language=Python, caption={Kreiranje tablice činjenica}]
+def transform_car_sales_fact(raw_data, manufacturer_dim, vehicle_dim, transmission_dim, 
+                           fuel_dim, location_dim, date_dim, mileage_category_dim, 
+                           engine_size_class_dim, age_category_dim):
+    
+    # Priprema cinjenica iz baze podataka
+    fact_df = prepare_fact_from_database(raw_data["car"], raw_data)
+    
+    # Dodavanje podataka iz CSV-a ako postoje
+    if "csv_cars" in raw_data and raw_data["csv_cars"] is not None:
+        csv_fact_df = prepare_fact_from_csv(raw_data["csv_cars"])
+        fact_df = fact_df.unionByName(csv_fact_df)
+    
+    # Dimension lookups za Foreign Key-eve
+    fact_with_dims = perform_dimension_lookups(
+        fact_df, manufacturer_dim, vehicle_dim, transmission_dim, 
+        fuel_dim, location_dim, date_dim, mileage_category_dim, 
+        engine_size_class_dim, age_category_dim
+    )
+    
+    return fact_with_dims
+\end{lstlisting}
+
+\textbf{Ključni aspekti transformacije:}
+\begin{itemize}
+    \item \textbf{Data cleansing} - uklanjanje neispravnih i nedosljednih podataka
+    \item \textbf{Standardizacija} - ujedinjavanje formata i kodiranja
+    \item \textbf{Surrogate key generiranje} - kreiranje tehničkih identifikatora
+    \item \textbf{Dimension lookup} - mapiranje business ključeva na surrogate ključeve
+    \item \textbf{Data enrichment} - dodavanje kategorijskih klasifikacija
+\end{itemize}
+
+\subsection{Load faza - učitavanje u skladište podataka}
+
+Load faza odgovorna je za efikasno i sigurno učitavanje transformiranih podataka u ciljno skladište podataka, pri čemu se poštuju referencijaljna ograničenja i optimiziraju performanse.
+
+\textbf{Strategija učitavanja:}
+
+Implementiran je pristup koji poštuje hijerarhiju foreign key veza između tablica, učitavajući najprije dimenzije, a zatim tablice činjenica.
+
+\begin{lstlisting}[language=Python, caption={Kontrolirano učitavanje s poštovanjem foreign key veza}]
+def write_all_tables_to_mysql(load_ready_dict):
+    # Prvo uklanjanje tablica cinjenica za izbjegavanje FK konflikata
+    drop_fact_tables_first()
+    
+    # Redoslijed ucitavanja: dimenzije prvo
+    dimension_tables = ['dim_manufacturer', 'dim_vehicle', 'dim_transmission', 
+                       'dim_fuel', 'dim_location', 'dim_date',
+                       'dim_mileage_category', 'dim_engine_size_class', 'dim_age_category']
+    fact_tables = ['fact_car_sales']
+    
+    # Ucitavanje dimenzija
+    for table_name in dimension_tables:
+        if table_name in load_ready_dict:
+            write_spark_df_to_mysql(load_ready_dict[table_name], table_name)
+    
+    # Zatim ucitavanje cinjenica
+    for table_name in fact_tables:
+        if table_name in load_ready_dict:
+            write_spark_df_to_mysql(load_ready_dict[table_name], table_name)
+\end{lstlisting}
+
+\textbf{JDBC optimizacije:}
+
+Učitavanje koristi JDBC batch operacije za optimalne performanse, s mogućnosti fallback-a na CSV export u slučaju tehničkih problema.
+
+\begin{lstlisting}[language=Python, caption={Optimizirano JDBC učitavanje s fallback strategijom}]
+def write_spark_df_to_mysql(spark_df: DataFrame, table_name: str, mode: str = "overwrite"):
+    jdbc_url = "jdbc:mysql://127.0.0.1:3306/cars_dw?useSSL=false&allowPublicKeyRetrieval=true"
+    connection_properties = {
+        "user": "root",
+        "password": "root",
+        "driver": "com.mysql.cj.jdbc.Driver"
+    }
+    
+    try:
+        spark_df.write.jdbc(
+            url=jdbc_url,
+            table=table_name,
+            mode=mode,
+            properties=connection_properties
+        )
+        print(f"Uspjesno ucitano {spark_df.count()} zapisa u tablicu {table_name}")
+        
+    except Exception as e:
+        print(f"Greska pri ucitavanju: {e}")
+        # Fallback na CSV export
+        output_path = f"4_etl/output/{table_name}.csv"
+        spark_df.coalesce(1).write.mode(mode).option("header", "true").csv(output_path)
+\end{lstlisting}
+
+\subsection{Orkestracija i monitoring}
+
+Kompletan ETL pipeline orchestriran je kroz glavnu skriptu koja koordinira sve faze i omogućuje praćenje napretka.
+
+\begin{lstlisting}[language=Python, caption={Glavna ETL orkestracija}]
+def main():
+    spark = get_spark_session()
+    spark.sparkContext.setLogLevel("ERROR")
+    
+    # Extract faza
+    print("Pocinje izvlacenje podataka...")
+    mysql_df = extract_all_tables()
+    csv_df = {"csv_cars": extract_from_csv("2_relational_model/processed/cars_data_20.csv")}
+    merged_df = {**mysql_df, **csv_df}
+    print("Izvlacenje podataka zavrseno")
+    
+    # Transform faza
+    print("Pocinje transformacija podataka...")
+    load_ready_dict = run_transformations(merged_df)
+    print("Transformacija podataka zavrsena")
+    
+    # Load faza
+    print("Pocinje ucitavanje podataka...")
+    write_all_tables_to_mysql(load_ready_dict)
+    print("ETL proces uspjesno zavrsen")
+\end{lstlisting}
+
+\subsection{Prednosti implementiranog ETL rješenja}
+
+Razvijeni ETL proces donosi značajne prednosti za upravljanje skladištem podataka:
+
+\textbf{Skalabilnost i performanse:}
+\begin{itemize}
+    \item Apache Spark omogućuje distribuirano procesiranje velikih volumena
+    \item Lazy evaluation optimizira izvršavanje kompleksnih transformacija
+    \item In-memory computing ubrzava iterativne operacije
+\end{itemize}
+
+\textbf{Fleksibilnost i proširivost:}
+\begin{itemize}
+    \item Modularni dizajn omogućuje lako dodavanje novih izvora podataka
+    \item Podrška za različite SCD strategije prema poslovnim zahtjevima
+    \item Mogućnost pokretanja pojedinačnih komponenti za testiranje i debugging
+\end{itemize}
+
+\textbf{Pouzdanost i održivost:}
+\begin{itemize}
+    \item Fallback strategije za slučajeve tehničkih problema
+    \item Detaljno logiranje za praćenje i dijagnostiku
+    \item Transakcijska sigurnost kroz kontrolirano učitavanje
+\end{itemize}
+
+Ovakav pristup osigurava da skladište podataka bude ažurno, konzistentno i spremno za složene analitičke operacije potrebne za poslovne analize i izvještavanje \cite{Chaudhuri2011}.
