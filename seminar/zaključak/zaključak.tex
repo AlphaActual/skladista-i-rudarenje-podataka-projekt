@@ -1,1 +1,21 @@
 \section{Zaključak}
+
+Ovaj projekt predstavlja sveobuhvatan prikaz procesa transformacije sirovih podataka u poslovnu inteligenciju kroz implementaciju moderne arhitekture skladišta podataka. Kroz praktičan rad s automotivnim skupom podataka, uspješno je demonstrirano kako se tradicionalni pristup rukovanja podacima može unaprijediti korištenjem naprednih tehnologija i metodologija.
+
+Počevši od temeljite eksplorativne analize podataka, identificirane su ključne karakteristike skupa podataka. Analiza je otkrila uvide o distribuciji cijena vozila, popularnim markama i modelima, te regionalnim razlikama u automobilskom tržištu. Ustvrđeno je kako je skup podatakata čist, s niti jednom nedostajućom vrijednošću, što je olakšalo daljnju obradu i analizu. Skup je ipak trebalo prošiti dodatnim atributima kako bi se obogatila analiza, što je uključivalo dodavanje geografskih i vremenskih dimenzija.
+
+Razvoj relacijskog modela bio je važni korak u strukturiranju podataka. Kroz proces normalizacije, transformiran je denormalizirani skup u optimalnu relacijsku strukturu s jedanaest tablica koje eliminiraju redundanciju i osiguravaju integritet podataka. Implementacija u MySQL-u s pravilno definiranim ključevima i ograničenjima postavila je čvrste temelje za daljnji rad.
+
+Prelazak na dimenzijski model označio je promjenu paradigme u pristupu analizi podataka. Zvjezdasta shema s centralnom Fact tablicom i devet dimenzijskih tablica omogućila je efikasne upite i OLAP analizu. Ova arhitektura nije samo poboljšala performanse upita, već je i omogućila intuitivniju navigaciju kroz podatke za krajnje korisnike.
+
+ETL proces, implementiran koristeći Apache Spark, čini okosnicu projekta. Automatizacija izvlačenja podataka iz relacijske baze, njihova transformacija i učitavanje u dimenzijski model osigurava svježinu i točnost podataka u skladištu. Spark-ova distribuirana arhitektura omogućava skaliranje prema rastućim potrebama organizacije. Također je simulirano punjenje skladišta iz više izvora (CSV datoteka i baza) podataka.
+
+OLAP analiza demonstrirala je pravu snagu implementiranog rješenja. Kroz različite scenarije analize - od jednostavnih agregacija do složenih vremenskih trendova i geografskih usporedbi - pokazali smo kako skladište podataka omogućava brzu i fleksibilnu analizu velikih količina podataka. Mogućnost filtriranja, grupiranja i agregiranja podataka po različitim dimenzijama pruža neprocjenjive uvide za poslovno odlučivanje.
+
+Tehnička implementacija pokazala je snagu moderne big data arhitekture. Kombinacija MySQL-a, Apache Spark-a i Python-a za koordinaciju procesa predstavlja robustan i skalabilan ekosustav.
+
+Iz perspektive poslovne vrijednosti, ovaj projekt demonstrira kako tehnički napredak direktno utječe na kvalitetu poslovnih odluka. Mogućnost brzog pristupa točnim podacima, fleksibilna analiza trendova i mogućnost predviđanja budućih kretanja predstavljaju ključne prednosti u konkurentnom poslovnom okruženju.
+
+Gledajući unaprijed, implementirani sustav postavlja temelje za daljnje proširenje. Mogućnosti uključuju integraciju dodatnih izvora podataka, implementaciju strojnog učenja za prediktivnu analizu, te razvoj interaktivnih dashboard-a za vizualizaciju rezultata.
+
+Ovaj projekt uspješno je ostvario postavljene ciljeve, demonstrirajući kako se teorijska znanja o skladištima podataka mogu pretvoriti u praktična rješenja koja donose mjerljivu vrijednost. Kombinacija temeljitog pristupa, moderne tehnologije i fokusa na poslovne potrebe rezultirala je sustavom koji ne samo da rješava trenutne izazove, već i postavlja temelje za buduća proširenja i inovaciju.
