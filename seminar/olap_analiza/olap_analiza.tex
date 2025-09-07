@@ -312,7 +312,7 @@ Analiza otkriva značajne razlike u poreznim strukturama među regijama. Sjevern
 
 \subsubsection{Porez kao postotak cijene}
 
-Calculated field analiza prikazuje porezno opterećenje kao postotak vrijednosti vozila.
+Calculated field analiza prikazuje porezno opterećenje kao postotak vrijednosti vozila kroz heatmapu koja kombinira proizvođače i tipove motora.
 
 \begin{figure}[H]
     \centering
@@ -321,11 +321,13 @@ Calculated field analiza prikazuje porezno opterećenje kao postotak vrijednosti
     \label{fig:porez-postotak}
 \end{figure}
 
-Vizualizacija otkriva da porezno opterećenje nisu proporcionalno vrijednosti vozila, što ukazuje na progresivni porezni sustav koji više opterećuje luksuzna vozila.
+Heatmap analiza otkriva kompleksne obrasce poreznog opterećenja koji se kreću u rasponu od 0,00\% do 1,35\% vrijednosti vozila. Najviše porezno opterećenje snose Vauxhall, Toyota i Hyundai vozila na benzin. Ovo ukazuje na to da se mass-market brendovi suočavaju s relativno višim poreznim teretom u odnosu na vrijednost vozila.
 
-\subsubsection{Prosječni porez po zemljama}
+Premium njemački proizvođači pokazuju umjereniji porezni teret, što sugerira da porezni sustav favorizira skuplja vozila kroz niže relativne stope. Električni, hibridni i drugi tipovi motora pokazuju nulte ili vrlo niske stope poreza, što vjerojatno odražava porezne poticaje za ekološki prihvatljive tehnologije. Najveća porezna opterećenja nalazimo kod benzinaca i dizelaša, čime se vjerojatno želi potaknuti prelazak na čišće tehnologije.
 
-Bar chart rangira zemlje prema prosječnom godišnjem porezu na vozila.
+\subsubsection{Prosječni porez po zemljama proizvođača}
+
+Bar chart rangira zemlje prema prosječnom godišnjem porezu na vozila, otkrivajući varijacije u nacionalnim poreznim politikama.
 
 \begin{figure}[H]
     \centering
@@ -334,11 +336,15 @@ Bar chart rangira zemlje prema prosječnom godišnjem porezu na vozila.
     \label{fig:porez-zemlja}
 \end{figure}
 
-Analiza pokazuje značajne razlike u poreznim sustavima, što utječe na konkurentnost proizvođača na različitim tržištima.
+Analiza otkriva jasnu hijerarhiju poreznih opterećenja prema zemljama porijekla proizvođača na promatranom tržištu. Vozila britanskih proizvođača nose najviši prosječni porezni teret od 128€, praćena njemačkim proizvođačima s 125€. Ova razlika može odražavati diferencirane porezne stope koje lokalni porezni sustav primjenjuje na vozila različitog porijekla.
+
+Vozila južnokorejskih (121€) i čeških proizvođača (118€) opterećena su umjerenim poreznim stopama, dok američki proizvođači uživaju nešto povoljniji tretman s prosječnim porezom od 114€. Japanski proizvođači imaju najniži prosječni porezni teret od 96€, što može ukazivati na preferencijalnu poreznu politiku prema vozilima iz te zemlje.
+
+Ove varijacije u poreznom opterećenju prema zemlji porijekla proizvođača stvaraju različite konkurentne pozicije na tržištu, gdje vozila japanskih proizvođača uživaju poreznu prednost koja može utjecati na njihovu cjenovnu konkurentnost i tržišni udio.
 
 \subsection{Kombinirana analiza dimenzija}
 
-Završna analiza kombinira multiple dimenzije za sveobuhvatan uvid u tržišne dinamike.
+Završna analiza kombinira dimenzije za sveobuhvatan uvid u tržišne dinamike.
 
 \subsubsection{Multi-dimenzijska analiza starosti}
 
@@ -351,38 +357,14 @@ Kombinirana analiza poreza i kilometraže prema kategorijama starosti vozila.
     \label{fig:kombinirana-analiza}
 \end{figure}
 
-Ova kompleksna vizualizacija demonstrira napredne OLAP mogućnosti kroz kombiniranje mehrih mjera i dimenzija, omogućujući holistički pogled na životni ciklus vozila.
+Kombinirana vizualizacija otkriva fascinantan inverzni odnos između starosti vozila, poreza i kilometraže kroz životni ciklus automobila. Analiza demonstrira kako se ove tri ključne dimenzije međusobno utječu kroz različite faze korištenja vozila.
 
-\subsection{Poslovne implikacije OLAP analiza}
+\textbf{Faza novijih vozila (0-15 godina):} Vozila u ovoj kategoriji pokazuju relativno nizak prosječni porez (50-200€ godišnje) uz umjerenu kilometražu (20.000-40.000 km). Ova faza karakterizirana je početnim razdobljem korištenja gdje vozila još uvijek zadržavaju visoku vrijednost i relativno nisko porezno opterećenje.
 
-Provedene OLAP analize pružaju vrijedne uvide za različite dionike automobilske industrije:
+\textbf{Faza zrelih vozila (15-25 godina):} Uočava se dramatičan porast prosječnog poreza koji dostiže vrhunac oko 310€ u 24. godini starosti, dok kilometraža postupno raste prema 90.000 km. Ovaj fenomen ukazuje na to da starija vozila, unatoč manjoj tržišnoj vrijednosti, mogu nositi veći porezni teret - vjerojatno zbog poreznih politika koje penaliziraju starije, manje ekološki prihvatljive motore.
 
-\textbf{Za proizvođače automobila:}
-\begin{itemize}
-    \item Optimizacija cjenovnih strategija prema regijama
-    \item Identifikacija tržišnih prilika u underserved segmentima
-    \item Planiranje portfelja modela prema tržišnim preferencama
-\end{itemize}
+\textbf{Faza vintage vozila (25+ godina):} Nakon 25. godine starosti uočava se nagao pad prosječnog poreza (s 310€ na oko 80€), što sugerira postojanje poreznih olakšica za oldtimer vozila. Kilometraža u ovoj fazi pokazuje veliku varijabilnost, od minimalnih vrijednosti kod kolekcijskih vozila do preko 180.000 km kod aktivno korištenih klasika.
 
-\textbf{Za trgovce automobilima:}
-\begin{itemize}
-    \item Procjena vrijednosti vozila za trade-in programe
-    \item Optimizacija inventory mix-a prema tržišnoj potražnji
-    \item Targeting marketing kampanja prema customer segmentima
-\end{itemize}
+Graf nam otkriva da porast poreza generalno prati povećanje kilometraže koje raste s godinama starosti, s izuzetkom vintage vozila kod kojih kilometraža ne prati visoke porezne stope. Ovo se može objasniti time da su neka od vintage vozila bila aktivno vožena tijekom godina, dok su druga očuvana kao kolekcionarski primjerci s minimalnom upotrebom.
 
-\textbf{Za financijske institucije:}
-\begin{itemize}
-    \item Preciznije modeliranje deprecijacije za leasing kalkulacije
-    \item Risk assessment za auto kredite
-    \item Portfolio optimizacija auto-related investicija
-\end{itemize}
-
-\textbf{Za regulatore i policy makers:}
-\begin{itemize}
-    \item Optimizacija poreznih sustava za automotive sektor
-    \item Praćenje trendova u fuel efficiency
-    \item Planiranje infrastrukture za nove tehnologije
-\end{itemize}
-
-Implementirani OLAP sustav demonstrira snagu multidimenzijskih analiza u pružanju actionable insights za kompleksne poslovne odluke u dinamičnoj automobilskoj industriji \cite{Han2011}.
+Na ovom grafu demonstrirane su napredne OLAP mogućnosti kroz kombiniranje više mjera i dimenzija, omogućujući holistički pogled na životni ciklus vozila i pružajući vrijedne uvide za optimizaciju poreznih politika, procjenu vrijednosti vozila i razumijevanje obrazaca korištenja kroz različite generacije automobila.
